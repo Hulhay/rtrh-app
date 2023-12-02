@@ -4,7 +4,7 @@ import { palette } from '../../../../constants';
 export const Wrapper = styled.div`
   width: 100%;
   padding: 0px 10px;
-  font-size: 12px;
+  font-size: 14px;
 `;
 
 export const Header = styled.div`

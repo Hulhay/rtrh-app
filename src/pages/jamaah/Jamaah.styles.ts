@@ -30,6 +30,7 @@ export const FormWrapper = styled.form`
 
 export const FormTitle = styled.label`
   font-weight: 600;
+  font-size: 18px;
 `;
 
 export const FormBody = styled.div`
@@ -54,7 +55,7 @@ export const Field = styled.input`
   border: 1px solid ${palette.primary};
   border-radius: 7px;
   color: ${palette.text};
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 400;
   padding: 10px;
 

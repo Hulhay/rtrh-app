@@ -26,11 +26,11 @@ export const useBottomSheet = (props: UseBottomSheetType) => {
 
   useEffect(() => {
     if (props.active) {
-      window.addEventListener('click', handleOutsideClick);
+      window.addEventListener('mousedown', handleOutsideClick);
     }
 
     return () => {
-      window.removeEventListener('click', handleOutsideClick);
+      window.removeEventListener('mousedown', handleOutsideClick);
     };
   }, [props.active, handleOutsideClick]);
 

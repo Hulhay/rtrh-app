@@ -35,7 +35,7 @@ export const SearchInput = styled.input`
   width: 100%;
   border: none;
   color: ${palette.text};
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 400;
 
   &:focus {
