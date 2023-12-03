@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { Home, Jamaah, Kajian, Scan } from '../pages';
+import { CreateJamaahSuccess, Home, Jamaah, Kajian, Scan } from '../pages';
 import { BaseLayout } from './layout';
 
 const Routes = createBrowserRouter([
@@ -24,6 +24,10 @@ const Routes = createBrowserRouter([
         element: <Kajian />,
       },
     ],
+  },
+  {
+    path: '/jamaah/new',
+    element: <CreateJamaahSuccess />,
   },
 ]);
 

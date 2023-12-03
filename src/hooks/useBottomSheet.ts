@@ -20,9 +20,7 @@ export const useBottomSheet = (props: UseBottomSheetType) => {
     }
   }, []);
 
-  useEffect(() => {
-    console.log(props.active, '<<ac');
-  }, [props.active]);
+  useEffect(() => {}, [props.active]);
 
   useEffect(() => {
     if (props.active) {

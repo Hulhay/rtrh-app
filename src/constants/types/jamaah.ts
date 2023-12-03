@@ -3,4 +3,5 @@ export type JamaahType = {
   uniqueId: string;
   name: string;
   phoneNumber: string;
+  qrString?: string;
 };

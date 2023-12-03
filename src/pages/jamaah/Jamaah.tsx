@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BottomSheet, SearchBar } from '../../components';
-import { lang } from '../../constants';
+import { JamaahType, lang } from '../../constants';
 import { jamaahData } from './dummy';
 import { AddButton, Header, TableJamaah } from './components';
 import {
@@ -13,14 +13,23 @@ import {
   SaveBtn,
   Wrapper,
 } from './Jamaah.styles';
+import { generateQRString } from '../../helper';
+import { useAppDispatch } from '../../hooks';
+import { insertJamaah } from '../../store/reducer';
+import { useNavigate } from 'react-router-dom';
 
 const Jamaah: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const [keyword, setKeyword] = useState<string>('');
   const [isBtmSheet, setIsBtmSheet] = useState<boolean>(false);
   const [disabled, setDisabled] = useState<boolean>(true);
-  const [jamaah, setJamaah] = useState({
+  const [jamaah, setJamaah] = useState<JamaahType>({
+    id: 0,
     name: '',
-    phone: '',
+    phoneNumber: '',
+    uniqueId: '',
   });
 
   const onKeywordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,16 +53,27 @@ const Jamaah: React.FC = () => {
   };
 
   const onPhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setJamaah({ ...jamaah, phone: event.target.value });
+    setJamaah({ ...jamaah, phoneNumber: event.target.value });
   };
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(jamaah);
+    const jamaahQRString = generateQRString(jamaah);
+    dispatch(
+      insertJamaah({
+        id: jamaah.id,
+        name: jamaah.name,
+        phoneNumber: jamaah.phoneNumber,
+        uniqueId: jamaah.uniqueId,
+        qrString: jamaahQRString,
+      }),
+    );
+    console.log(jamaahQRString);
+    navigate(`/jamaah/new`);
   };
 
   useEffect(() => {
-    jamaah.name && jamaah.phone && setDisabled(false);
+    jamaah.name && jamaah.phoneNumber && setDisabled(false);
   }, [jamaah]);
 
   return (
@@ -87,7 +107,7 @@ const Jamaah: React.FC = () => {
               <Field
                 inputMode="numeric"
                 placeholder={lang('jamaah.form.phone_placeholder')}
-                value={jamaah.phone}
+                value={jamaah.phoneNumber}
                 onChange={onPhoneChange}
               />
             </FieldWrapper>

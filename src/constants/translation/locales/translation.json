@@ -10,10 +10,16 @@
         "name_placeholder": "Masukkan Nama Jamaah",
         "phone": "Nomor WhatssApp Jamaah",
         "phone_placeholder": "Masukkan Nomor WhatssApp Jamaah"
-      }
+      },
+      "success": "Jamaah Berhasil Ditambahkan"
+    },
+    "qr": {
+      "rtrh": "Rumah Tahfizh Raudhatul Huffadz",
+      "address": "Nitikan Kota Yogyakarta"
     },
     "button": {
-      "save": "Simpan"
+      "save": "Simpan",
+      "download_qr": "Download QR Code"
     }
   }
 }
