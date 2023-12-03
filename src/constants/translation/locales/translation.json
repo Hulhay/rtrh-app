@@ -17,6 +17,10 @@
       "rtrh": "Rumah Tahfizh Raudhatul Huffadz",
       "address": "Nitikan Kota Yogyakarta"
     },
+    "not_found": {
+      "title": "Halaman Tidak Ditemukan",
+      "back": "Kembali ke Beranda"
+    },
     "button": {
       "save": "Simpan",
       "download_qr": "Download QR Code"
