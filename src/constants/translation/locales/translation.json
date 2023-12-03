@@ -1,5 +1,29 @@
 {
   "id": {
-    "hello_world": "Hello World"
+    "hello_world": "Hello World",
+    "jamaah": {
+      "header": "Jamaah",
+      "search_placeholder": "Cari Jamaah",
+      "form": {
+        "title": "Buat Data Jamaah Baru",
+        "name": "Nama Jamaah",
+        "name_placeholder": "Masukkan Nama Jamaah",
+        "phone": "Nomor WhatssApp Jamaah",
+        "phone_placeholder": "Masukkan Nomor WhatssApp Jamaah"
+      },
+      "success": "Jamaah Berhasil Ditambahkan"
+    },
+    "qr": {
+      "rtrh": "Rumah Tahfizh Raudhatul Huffadz",
+      "address": "Nitikan Kota Yogyakarta"
+    },
+    "not_found": {
+      "title": "Halaman Tidak Ditemukan",
+      "back": "Kembali ke Beranda"
+    },
+    "button": {
+      "save": "Simpan",
+      "download_qr": "Download QR Code"
+    }
   }
 }
