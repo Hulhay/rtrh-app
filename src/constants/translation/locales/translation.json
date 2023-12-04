@@ -4,6 +4,10 @@
     "jamaah": {
       "header": "Jamaah",
       "search_placeholder": "Cari Jamaah",
+      "table": {
+        "id": "ID",
+        "name": "Nama Jamaah"
+      },
       "form": {
         "title": "Buat Data Jamaah Baru",
         "name": "Nama Jamaah",
@@ -12,6 +16,24 @@
         "phone_placeholder": "Masukkan Nomor WhatssApp Jamaah"
       },
       "success": "Jamaah Berhasil Ditambahkan"
+    },
+    "kajian": {
+      "header": "Kajian",
+      "search_placeholder": "Cari Kajian",
+      "table": {
+        "id": "ID",
+        "name": "Nama Kajian"
+      },
+      "form": {
+        "title": "Buat Kajian Baru",
+        "name": "Nama Kajian",
+        "name_placeholder": "Masukkan Nama Kajian",
+        "lecturer": "Nama Pengisi",
+        "lecturer_placeholder": "Masukkan Nama Pengisi Kajian",
+        "date": "Tanggal Kajian",
+        "date_placeholder": "Pilih Tanggal Kajian"
+      },
+      "success": "Kajian Berhasil Ditambahkan"
     },
     "qr": {
       "rtrh": "Rumah Tahfizh Raudhatul Huffadz",
@@ -23,7 +45,8 @@
     },
     "button": {
       "save": "Simpan",
-      "download_qr": "Download QR Code"
+      "download_qr": "Download QR Code",
+      "close": "Tutup"
     }
   }
 }
