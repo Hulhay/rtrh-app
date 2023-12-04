@@ -1,4 +1,4 @@
-import { now } from '.';
+import { getTimeString, now } from '.';
 import { JamaahType } from '../constants';
 
 export const generateUniqueId = (): string => {
@@ -21,6 +21,6 @@ export const parsingQr = (qrString: string) => {
   return {
     name: parse[1].split('%20').join(' '),
     phoneNumber: parse[2],
-    date: `${now().getHours()} : ${now().getMinutes()}`,
+    date: getTimeString(now()),
   };
 };

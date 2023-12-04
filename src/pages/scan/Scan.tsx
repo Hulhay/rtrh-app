@@ -36,6 +36,7 @@ const Scan: React.FC = () => {
 
   const onClose = () => {
     setIsBtmSheet(false);
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -76,7 +77,6 @@ const Scan: React.FC = () => {
             <Option value="4">Kajian Mantab 4</Option>
           </Select>
         </SelectWrapper>
-        <div style={{ textAlign: 'center' }}>{qrCode}</div>
       </Wrapper>
 
       <BottomSheet active={false} onClose={onClose}>
