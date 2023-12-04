@@ -26,6 +26,7 @@ const Scan: React.FC = () => {
   const [jamaah, setJamaah] = useState({
     name: '',
     phoneNumber: '',
+    date: '',
   });
 
   const onQrCode = (qrCode: string) => {
@@ -38,16 +39,15 @@ const Scan: React.FC = () => {
 
   useEffect(() => {
     if (qrCode !== '') {
-      alert(validateQrString(qrCode));
       if (!validateQrString(qrCode)) {
         setIsValid(false);
         setIsBtmSheet(true);
         return;
       }
 
-      const { name, phoneNumber } = parsingQr(qrCode);
+      const { name, phoneNumber, date } = parsingQr(qrCode);
 
-      setJamaah({ name, phoneNumber });
+      setJamaah({ name, phoneNumber, date });
       setIsValid(true);
       setIsBtmSheet(true);
     }
@@ -87,6 +87,7 @@ const Scan: React.FC = () => {
               <JamaahWrapper>
                 <p>{jamaah.name}</p>
                 <p>{jamaah.phoneNumber}</p>
+                <p>{jamaah.date}</p>
               </JamaahWrapper>
             </React.Fragment>
           ) : (

@@ -1,3 +1,4 @@
+import { now } from '.';
 import { JamaahType } from '../constants';
 
 export const generateUniqueId = (): string => {
@@ -18,7 +19,8 @@ export const validateQrString = (qrString: string): boolean => {
 export const parsingQr = (qrString: string) => {
   const parse = qrString.split('/');
   return {
-    name: parse[1],
+    name: parse[1].split('%20').join(' '),
     phoneNumber: parse[2],
+    date: `${now().getHours} : ${now().getMinutes}`,
   };
 };
