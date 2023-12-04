@@ -45,4 +45,5 @@ export const DownloadButton = styled.button`
   padding: 10px 15px;
   border: none;
   border-radius: 7px;
+  width: 100%;
 `;

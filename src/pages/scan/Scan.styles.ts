@@ -99,3 +99,14 @@ export const JamaahWrapper = styled.div`
   text-align: center;
   line-height: 1.2;
 `;
+
+export const CloseBtn = styled.button`
+  width: 100%;
+  margin-top: 50px;
+  padding: 10px 15px;
+  border-radius: 7px;
+  border: none;
+  background-color: ${palette.primary};
+  color: ${palette.white};
+  font-size: 16px;
+`;

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+  CloseBtn,
   Description,
   JamaahWrapper,
   MsgWrapper,
@@ -61,7 +62,7 @@ const Scan: React.FC = () => {
           <ContinuousQrScanner
             onQrCode={onQrCode}
             hidden={false}
-            style={{ objectFit: 'cover' }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
         </ScannerWrapper>
         <SelectWrapper>
@@ -97,6 +98,7 @@ const Scan: React.FC = () => {
               <p>Silakan Coba Lagi</p>
             </React.Fragment>
           )}
+          <CloseBtn onClick={onClose}>Tutup</CloseBtn>
         </MsgWrapper>
       </BottomSheet>
     </React.Fragment>

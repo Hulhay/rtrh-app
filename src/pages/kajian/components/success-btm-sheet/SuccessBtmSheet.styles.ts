@@ -35,6 +35,7 @@ export const Description = styled.p`
 `;
 
 export const CloseBtn = styled.button`
+  width: 100%;
   margin-top: 50px;
   padding: 10px 15px;
   border-radius: 7px;
