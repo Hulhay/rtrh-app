@@ -38,6 +38,7 @@ const Scan: React.FC = () => {
 
   useEffect(() => {
     if (qrCode !== '') {
+      alert(validateQrString(qrCode));
       if (!validateQrString(qrCode)) {
         setIsValid(false);
         setIsBtmSheet(true);

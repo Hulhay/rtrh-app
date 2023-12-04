@@ -11,8 +11,7 @@ export const generateQRString = (jamaah: JamaahType): string => {
 };
 
 export const validateQrString = (qrString: string): boolean => {
-  const validQrPattern =
-    /RTRH\/(?:[A-Za-z0-9%]+%20)?([A-Za-z0-9%]+)%20?([A-Za-z0-9]+)\/(\d{10,12})\/([A-Za-z0-9]+)/;
+  const validQrPattern = /RTRH\/[a-zA-Z0-9%]+\/\d+\/\S+/;
   return validQrPattern.test(qrString);
 };
 
