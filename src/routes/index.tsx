@@ -16,11 +16,11 @@ const Routes = createBrowserRouter([
         path: 'jamaah',
         element: <Jamaah />,
       },
-      {
-        path: 'scan',
-        element: <Scan />,
-      },
     ],
+  },
+  {
+    path: 'scan',
+    element: <Scan />,
   },
   {
     path: '/jamaah/new',
