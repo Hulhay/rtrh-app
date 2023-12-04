@@ -1,12 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import {
-  CreateJamaahSuccess,
-  Home,
-  Jamaah,
-  Kajian,
-  NotFound,
-  Scan,
-} from '../pages';
+import { CreateJamaahSuccess, Jamaah, Kajian, NotFound, Scan } from '../pages';
 import { BaseLayout } from './layout';
 
 const Routes = createBrowserRouter([
@@ -17,7 +10,7 @@ const Routes = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />,
+        element: <Kajian />,
       },
       {
         path: 'jamaah',
@@ -26,10 +19,6 @@ const Routes = createBrowserRouter([
       {
         path: 'scan',
         element: <Scan />,
-      },
-      {
-        path: 'kajian',
-        element: <Kajian />,
       },
     ],
   },

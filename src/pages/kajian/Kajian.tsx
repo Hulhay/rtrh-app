@@ -3,11 +3,10 @@ import { Wrapper } from './Kajian.styles';
 import {
   AddButton,
   FormBtmSheet,
-  Header,
   SuccessBtmSheet,
   TableKajian,
 } from './components';
-import { SearchBar } from '../../components';
+import { Header, SearchBar } from '../../components';
 import { KajianType, lang } from '../../constants';
 import { kajianData } from './dummy';
 
@@ -70,7 +69,7 @@ const Kajian: React.FC = () => {
   return (
     <React.Fragment>
       <Wrapper>
-        <Header />
+        <Header title={lang('kajian.header')} />
         <SearchBar
           placeholder={lang('kajian.search_placeholder')}
           value={keyword}

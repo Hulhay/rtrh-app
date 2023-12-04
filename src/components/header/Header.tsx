@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { lang } from '../../../../constants';
-import { useScroll } from '../../../../hooks';
 import { Wrapper } from './Header.styles';
+import { useScroll } from '../../hooks';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  title: string;
+}
+
+const Header: React.FC<HeaderProps> = (props) => {
   const scroll = useScroll();
   const [position, setPosition] = useState<string>('static');
 
@@ -13,7 +16,7 @@ const Header: React.FC = () => {
 
   return (
     <Wrapper className={position}>
-      <h1>{lang('kajian.header')}</h1>
+      <h1>{props.title}</h1>
     </Wrapper>
   );
 };

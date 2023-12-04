@@ -1,18 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { BottomSheet, SearchBar } from '../../components';
+import { Header, SearchBar } from '../../components';
 import { JamaahType, lang } from '../../constants';
 import { jamaahData } from './dummy';
-import { AddButton, Header, TableJamaah } from './components';
-import {
-  Field,
-  FieldLabel,
-  FieldWrapper,
-  FormBody,
-  FormTitle,
-  FormWrapper,
-  SaveBtn,
-  Wrapper,
-} from './Jamaah.styles';
+import { AddButton, FormBtmSheet, TableJamaah } from './components';
+import { Wrapper } from './Jamaah.styles';
 import { generateQRString } from '../../helper';
 import { useAppDispatch } from '../../hooks';
 import { insertJamaah } from '../../store/reducer';
@@ -23,8 +14,8 @@ const Jamaah: React.FC = () => {
   const navigate = useNavigate();
 
   const [keyword, setKeyword] = useState<string>('');
-  const [isBtmSheet, setIsBtmSheet] = useState<boolean>(false);
-  const [disabled, setDisabled] = useState<boolean>(true);
+  const [isFormBtmSheet, setIsFormBtmSheet] = useState<boolean>(false);
+  const [disabledSave, setDisabledSave] = useState<boolean>(true);
   const [jamaah, setJamaah] = useState<JamaahType>({
     id: 0,
     name: '',
@@ -41,11 +32,11 @@ const Jamaah: React.FC = () => {
   };
 
   const onClick = () => {
-    setIsBtmSheet(true);
+    setIsFormBtmSheet(true);
   };
 
   const onClose = () => {
-    setIsBtmSheet(false);
+    setIsFormBtmSheet(false);
   };
 
   const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,13 +64,13 @@ const Jamaah: React.FC = () => {
   };
 
   useEffect(() => {
-    jamaah.name && jamaah.phoneNumber && setDisabled(false);
+    jamaah.name && jamaah.phoneNumber && setDisabledSave(false);
   }, [jamaah]);
 
   return (
     <React.Fragment>
       <Wrapper>
-        <Header />
+        <Header title={lang('jamaah.header')} />
         <SearchBar
           placeholder={lang('jamaah.search_placeholder')}
           value={keyword}
@@ -90,37 +81,15 @@ const Jamaah: React.FC = () => {
         <AddButton onClick={onClick} />
       </Wrapper>
 
-      <BottomSheet active={isBtmSheet} onClose={onClose}>
-        <FormWrapper onSubmit={onSubmit} className={isBtmSheet ? 'active' : ''}>
-          <FormTitle>{lang('jamaah.form.title')}</FormTitle>
-          <FormBody>
-            <FieldWrapper>
-              <FieldLabel>{lang('jamaah.form.name')}</FieldLabel>
-              <Field
-                placeholder={lang('jamaah.form.name_placeholder')}
-                value={jamaah.name}
-                onChange={onNameChange}
-              />
-            </FieldWrapper>
-            <FieldWrapper>
-              <FieldLabel>{lang('jamaah.form.phone')}</FieldLabel>
-              <Field
-                inputMode="numeric"
-                placeholder={lang('jamaah.form.phone_placeholder')}
-                value={jamaah.phoneNumber}
-                onChange={onPhoneChange}
-              />
-            </FieldWrapper>
-          </FormBody>
-          <SaveBtn
-            type="submit"
-            disabled={disabled}
-            className={disabled ? 'disabled' : ''}
-          >
-            {lang('button.save')}
-          </SaveBtn>
-        </FormWrapper>
-      </BottomSheet>
+      <FormBtmSheet
+        isFormBtmSheet={isFormBtmSheet}
+        jamaah={jamaah}
+        onClose={onClose}
+        onNameChange={onNameChange}
+        onPhoneChange={onPhoneChange}
+        onSubmit={onSubmit}
+        disabledSave={disabledSave}
+      />
     </React.Fragment>
   );
 };

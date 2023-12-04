@@ -8,7 +8,7 @@ import {
   Row,
   Wrapper,
 } from './Table.styles';
-import { JamaahType } from '../../../../constants';
+import { JamaahType, lang } from '../../../../constants';
 import { Link } from 'react-router-dom';
 
 interface TableJamaahProps {
@@ -20,8 +20,8 @@ const TableJamaah: React.FC<TableJamaahProps> = (props) => {
     <Wrapper>
       <Header>
         <Row>
-          <IDCell>ID</IDCell>
-          <NameCell>Name</NameCell>
+          <IDCell>{lang('jamaah.table.id')}</IDCell>
+          <NameCell>{lang('jamaah.table.name')}</NameCell>
         </Row>
       </Header>
       <Body>

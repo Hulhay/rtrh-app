@@ -26,8 +26,8 @@ const Navbar: React.FC = () => {
 
   return (
     <Wrapper className={hide}>
-      <Link to={'/kajian'}>
-        {loc.pathname === '/kajian' ? (
+      <Link to={'/'}>
+        {loc.pathname === '/' ? (
           <BsCalendarEventFill className="icon" />
         ) : (
           <BsCalendarEvent className="icon" />
