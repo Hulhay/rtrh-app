@@ -1,5 +1,12 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { CreateJamaahSuccess, Jamaah, Kajian, NotFound, Scan } from '../pages';
+import {
+  CreateJamaahSuccess,
+  Jamaah,
+  JamaahDetail,
+  Kajian,
+  NotFound,
+  Scan,
+} from '../pages';
 import { BaseLayout } from './layout';
 
 const Routes = createBrowserRouter([
@@ -25,6 +32,10 @@ const Routes = createBrowserRouter([
   {
     path: '/jamaah/new',
     element: <CreateJamaahSuccess />,
+  },
+  {
+    path: '/jamaah/:id',
+    element: <JamaahDetail />,
   },
 ]);
 

@@ -33,6 +33,7 @@ const FormBtmSheet: React.FC<FormBtmSheetProps> = (props) => {
           <FieldWrapper>
             <FieldLabel>{lang('jamaah.form.name')}</FieldLabel>
             <Field
+              required
               placeholder={lang('jamaah.form.name_placeholder')}
               value={props.jamaah.name}
               onChange={props.onNameChange}
@@ -41,6 +42,7 @@ const FormBtmSheet: React.FC<FormBtmSheetProps> = (props) => {
           <FieldWrapper>
             <FieldLabel>{lang('jamaah.form.phone')}</FieldLabel>
             <Field
+              required
               inputMode="numeric"
               placeholder={lang('jamaah.form.phone_placeholder')}
               value={props.jamaah.phoneNumber}

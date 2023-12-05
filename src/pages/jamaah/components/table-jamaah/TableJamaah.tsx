@@ -30,7 +30,7 @@ const TableJamaah: React.FC<TableJamaahProps> = (props) => {
             <Row key={index}>
               <IDCell>{index + 1}</IDCell>
               <NameCell>
-                <Link to={`/jamaah/${jamaah.uniqueId}`} className="link">
+                <Link to={`/jamaah/${jamaah.id}`} className="link">
                   <JamaahName>{jamaah.name}</JamaahName>
                 </Link>
               </NameCell>
