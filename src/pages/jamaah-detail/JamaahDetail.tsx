@@ -62,20 +62,26 @@ const JamaahDetail: React.FC = () => {
   }, []);
 
   return (
-    <Wrapper>
-      <GoXCircle className="back" onClick={() => navigate('/jamaah')} />
-      <Header>{lang('jamaah.success')}</Header>
-      <QRWrapper>
-        <QRCode id="QRCode" value={jamaah.qrString || ''} size={256} />
-      </QRWrapper>
-      <JamaahInfo>
-        <p>{jamaah.name}</p>
-        <p>{jamaah.phoneNumber}</p>
-      </JamaahInfo>
-      <DownloadButton onClick={onImageDownload}>
-        {lang('button.download_qr')}
-      </DownloadButton>
-    </Wrapper>
+    <>
+      {!jamaah.qrString ? (
+        'loading..'
+      ) : (
+        <Wrapper>
+          <GoXCircle className="back" onClick={() => navigate('/jamaah')} />
+          <Header>{lang('jamaah.detail')}</Header>
+          <QRWrapper>
+            <QRCode id="QRCode" value={jamaah.qrString || ''} size={256} />
+          </QRWrapper>
+          <JamaahInfo>
+            <p>{jamaah.name}</p>
+            <p>{jamaah.phoneNumber}</p>
+          </JamaahInfo>
+          <DownloadButton onClick={onImageDownload}>
+            {lang('button.download_qr')}
+          </DownloadButton>
+        </Wrapper>
+      )}
+    </>
   );
 };
 

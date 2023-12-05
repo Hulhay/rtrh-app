@@ -4,6 +4,7 @@
     "jamaah": {
       "header": "Jamaah",
       "search_placeholder": "Cari Jamaah",
+      "detail": "Detail Jamaah",
       "table": {
         "id": "ID",
         "name": "Nama Jamaah"

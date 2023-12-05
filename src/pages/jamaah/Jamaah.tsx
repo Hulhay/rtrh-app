@@ -157,7 +157,11 @@ const Jamaah: React.FC = () => {
           onChange={onKeywordChange}
           onClear={onClear}
         />
-        <TableJamaah jamaahData={jamaahData} />
+        {jamaahData.length === 0 ? (
+          'loading..'
+        ) : (
+          <TableJamaah jamaahData={jamaahData} />
+        )}
         <AddButton onClick={onClick} />
       </Wrapper>
 
