@@ -1,4 +1,4 @@
-import { JamaahType, lang } from '../../constants';
+import { JamaahType, lang } from '../constants';
 
 type DrawQrCodeType = {
   ctx: CanvasRenderingContext2D;
@@ -6,7 +6,7 @@ type DrawQrCodeType = {
   jamaah: JamaahType;
 };
 
-const drawQRCode = (props: DrawQrCodeType) => {
+export const drawQRCode = (props: DrawQrCodeType) => {
   const { ctx, img, jamaah } = props;
 
   const expandX = 40;
@@ -56,5 +56,3 @@ const drawQRCode = (props: DrawQrCodeType) => {
   ctx.fillStyle = 'black';
   ctx.fillText(lang('qr.address'), ctx.canvas.width / 2, footerPosition + 15);
 };
-
-export default drawQRCode;

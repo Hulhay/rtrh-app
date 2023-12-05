@@ -1,21 +1,39 @@
-import React, { useEffect } from 'react';
-import { useAppSelector } from '../../hooks';
-import { GoXCircle } from 'react-icons/go';
-import { useNavigate } from 'react-router-dom';
-import QRCode from 'react-qr-code';
+import React, { useEffect, useState } from 'react';
 import {
   DownloadButton,
   Header,
-  JamaahDetail,
+  JamaahInfo,
   QRWrapper,
   Wrapper,
-} from './CreateJamaahSuccess.styles';
-import { lang } from '../../constants';
-import { drawQRCode } from '../../helper';
+} from './JamaahDetail.styles';
+import { GoXCircle } from 'react-icons/go';
+import { useNavigate, useParams } from 'react-router-dom';
+import { buildQRStringFromResponse, drawQRCode } from '../../helper';
+import { JamaahType, lang } from '../../constants';
+import QRCode from 'react-qr-code';
+import { jamaahService } from '../../service';
 
-const CreateJamaahSuccess: React.FC = () => {
+const JamaahDetail: React.FC = () => {
   const navigate = useNavigate();
-  const jamaah = useAppSelector((state) => state.jamaah);
+  const { id } = useParams<{ id: string }>();
+
+  const [jamaah, setJamaah] = useState<JamaahType>({
+    id: 0,
+    name: '',
+    phoneNumber: '',
+    uniqueId: '',
+  });
+
+  const getJamaahByID = async (id: string) => {
+    const { data: jamaah } = await jamaahService.getJamaahByIDDB(id);
+    setJamaah({
+      id: jamaah.id,
+      name: jamaah.name,
+      phoneNumber: jamaah.phone_number,
+      uniqueId: jamaah.unique_id,
+      qrString: buildQRStringFromResponse(jamaah),
+    });
+  };
 
   const onImageDownload = () => {
     const svg = document.getElementById('QRCode');
@@ -40,9 +58,7 @@ const CreateJamaahSuccess: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!jamaah.qrString) {
-      navigate('/jamaah');
-    }
+    getJamaahByID(id as string);
   }, []);
 
   return (
@@ -52,10 +68,10 @@ const CreateJamaahSuccess: React.FC = () => {
       <QRWrapper>
         <QRCode id="QRCode" value={jamaah.qrString || ''} size={256} />
       </QRWrapper>
-      <JamaahDetail>
+      <JamaahInfo>
         <p>{jamaah.name}</p>
         <p>{jamaah.phoneNumber}</p>
-      </JamaahDetail>
+      </JamaahInfo>
       <DownloadButton onClick={onImageDownload}>
         {lang('button.download_qr')}
       </DownloadButton>
@@ -63,4 +79,4 @@ const CreateJamaahSuccess: React.FC = () => {
   );
 };
 
-export default CreateJamaahSuccess;
+export default JamaahDetail;

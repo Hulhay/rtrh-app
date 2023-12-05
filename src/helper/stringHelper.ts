@@ -5,10 +5,18 @@ export const generateUniqueId = (): string => {
   return Math.random().toString(16).slice(2);
 };
 
-export const generateQRString = (jamaah: JamaahType): string => {
+export const generateQRString = (jamaah: JamaahType) => {
   const uniqueId = generateUniqueId();
   const name = jamaah.name.split(' ').join('%20');
-  return `RTRH/${name}/${jamaah.phoneNumber}/${uniqueId}`;
+  return {
+    jamaahQRString: `RTRH/${name}/${jamaah.phoneNumber}/${uniqueId}`,
+    uniqueId: uniqueId,
+  };
+};
+
+export const buildQRStringFromResponse = (jamaah: any) => {
+  const name = jamaah.name.split(' ').join('%20');
+  return `RTRH/${name}/${jamaah.phone_number}/${jamaah.unique_id}`;
 };
 
 export const validateQrString = (qrString: string): boolean => {
