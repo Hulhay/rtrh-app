@@ -48,6 +48,10 @@
       "save": "Simpan",
       "download_qr": "Download QR Code",
       "close": "Tutup"
+    },
+    "service": {
+      "err_jamaah_not_found": "Jamaah Tidak Ditemukan",
+      "err_wa_exists": "Nomot WhatssApp Sudah Digunakan"
     }
   }
 }

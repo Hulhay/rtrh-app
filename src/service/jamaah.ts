@@ -1,6 +1,8 @@
 import { PostgrestError } from '@supabase/supabase-js';
 import { sbClient } from '../config';
-import { JamaahType } from '../constants';
+import { JamaahType, lang } from '../constants';
+import { buildJamaahResp } from './helper';
+import { buildQRStringFromResponse } from '../helper';
 
 export default {
   getJamaahDB: async () => {
@@ -9,7 +11,9 @@ export default {
       .select('id,name')
       .order('created_at', { ascending: false });
 
-    return { data, error };
+    const resp: JamaahType[] = buildJamaahResp(data);
+
+    return { resp, error };
   },
 
   searchJamaahByKeywordDB: async (keyword: string) => {
@@ -19,27 +23,44 @@ export default {
       .ilike('name', `%${keyword}%`)
       .order('created_at', { ascending: false });
 
-    return { data };
+    const resp: JamaahType[] = buildJamaahResp(data);
+
+    return { resp };
   },
 
   getJamaahByIDDB: async (id: string) => {
-    const { data: resp, error } = await sbClient
+    const { data, error } = await sbClient
       .from('jamaah')
       .select('*')
       .eq('id', id);
 
-    const data = resp?.[0];
-    if (!data) {
+    let resp: JamaahType = {
+      id: 0,
+      name: '',
+      phoneNumber: '',
+      uniqueId: '',
+      qrString: '',
+    };
+
+    if (data?.length === 0) {
       const error: PostgrestError = {
         code: '404',
         details: '',
         hint: '',
-        message: 'Jamaah Tidak Ditemukan',
+        message: lang('service.err_jamaah_not_found'),
       };
-      return { data, error };
+      return { resp, error };
     }
 
-    return { data, error };
+    resp = {
+      id: data?.[0]?.id,
+      name: data?.[0]?.name,
+      phoneNumber: data?.[0]?.phone_number,
+      uniqueId: data?.[0]?.unique_id,
+      qrString: buildQRStringFromResponse(data?.[0]),
+    };
+
+    return { resp, error };
   },
 
   insertJamaahDB: async (jamaah: JamaahType) => {
@@ -51,14 +72,14 @@ export default {
     if (jamaahExists?.[0]?.id) {
       const error: PostgrestError = {
         code: '409',
+        message: lang('service.err_wa_exists'),
         details: '',
         hint: '',
-        message: 'Nomor WhatssApp Sudah Digunakan',
       };
-      return { jamaahExists, error };
+      return { error };
     }
 
-    const { data, error } = await sbClient
+    const { error } = await sbClient
       .from('jamaah')
       .insert([
         {
@@ -69,6 +90,6 @@ export default {
       ])
       .select();
 
-    return { data, error };
+    return { error };
   },
 };

@@ -37,6 +37,10 @@ const Routes = createBrowserRouter([
     path: '/jamaah/:id',
     element: <JamaahDetail />,
   },
+  {
+    path: '/not-found',
+    element: <NotFound />,
+  },
 ]);
 
 export default Routes;

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Header, MsgBtmSheet, SearchBar } from '../../components';
+import { Header, Loading, MsgBtmSheet, SearchBar } from '../../components';
 import { JamaahType, lang } from '../../constants';
 import { AddButton, FormBtmSheet, TableJamaah } from './components';
 import { Wrapper } from './Jamaah.styles';
@@ -9,7 +9,6 @@ import { insertJamaah } from '../../store/reducer';
 import { useNavigate } from 'react-router-dom';
 import { jamaahService } from '../../service';
 import { debounce } from 'lodash';
-import { jamaahMap } from './Jamaah.helper';
 
 const Jamaah: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -31,16 +30,21 @@ const Jamaah: React.FC = () => {
   });
 
   const getJamaah = async () => {
-    const { data: jamaahResponse } = await jamaahService.getJamaahDB();
-    const jamaahData = jamaahMap(jamaahResponse);
-    setJamaahData(jamaahData);
+    setLoading(true);
+    try {
+      const { resp: jamaahData } = await jamaahService.getJamaahDB();
+      setJamaahData(jamaahData);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const searchJamaah = useRef(
     debounce(async (keyword: string) => {
-      const { data: jamaahResponse } =
+      const { resp: jamaahData } =
         await jamaahService.searchJamaahByKeywordDB(keyword);
-      const jamaahData = jamaahMap(jamaahResponse);
       setJamaahData(jamaahData);
     }, 500),
   ).current;
@@ -88,7 +92,7 @@ const Jamaah: React.FC = () => {
     );
 
     let _errMsg = '';
-    setLoading(true);
+    setDisabledSave(true);
     try {
       const { error } = await jamaahService.insertJamaahDB({
         ...jamaah,
@@ -101,10 +105,8 @@ const Jamaah: React.FC = () => {
     } catch (error) {
       console.error('Error:', error);
     } finally {
-      setLoading(false);
+      setDisabledSave(false);
     }
-
-    console.log(_errMsg);
 
     if (_errMsg && isMountedRef.current) {
       setErrMsg(_errMsg);
@@ -157,11 +159,7 @@ const Jamaah: React.FC = () => {
           onChange={onKeywordChange}
           onClear={onClear}
         />
-        {jamaahData.length === 0 ? (
-          'loading..'
-        ) : (
-          <TableJamaah jamaahData={jamaahData} />
-        )}
+        {loading ? <Loading /> : <TableJamaah jamaahData={jamaahData} />}
         <AddButton onClick={onClick} />
       </Wrapper>
 
@@ -172,7 +170,7 @@ const Jamaah: React.FC = () => {
         onNameChange={onNameChange}
         onPhoneChange={onPhoneChange}
         onSubmit={onSubmit}
-        disabledSave={disabledSave || loading}
+        disabledSave={disabledSave}
       />
 
       {errMsg && (

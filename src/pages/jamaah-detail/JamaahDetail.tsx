@@ -8,15 +8,17 @@ import {
 } from './JamaahDetail.styles';
 import { GoXCircle } from 'react-icons/go';
 import { useNavigate, useParams } from 'react-router-dom';
-import { buildQRStringFromResponse, drawQRCode } from '../../helper';
+import { drawQRCode } from '../../helper';
 import { JamaahType, lang } from '../../constants';
 import QRCode from 'react-qr-code';
 import { jamaahService } from '../../service';
+import { Loading } from '../../components';
 
 const JamaahDetail: React.FC = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
 
+  const [error, setError] = useState<any>();
   const [jamaah, setJamaah] = useState<JamaahType>({
     id: 0,
     name: '',
@@ -25,14 +27,9 @@ const JamaahDetail: React.FC = () => {
   });
 
   const getJamaahByID = async (id: string) => {
-    const { data: jamaah } = await jamaahService.getJamaahByIDDB(id);
-    setJamaah({
-      id: jamaah.id,
-      name: jamaah.name,
-      phoneNumber: jamaah.phone_number,
-      uniqueId: jamaah.unique_id,
-      qrString: buildQRStringFromResponse(jamaah),
-    });
+    const { resp: jamaah, error } = await jamaahService.getJamaahByIDDB(id);
+    setError(error?.message);
+    setJamaah(jamaah);
   };
 
   const onImageDownload = () => {
@@ -61,10 +58,14 @@ const JamaahDetail: React.FC = () => {
     getJamaahByID(id as string);
   }, []);
 
+  useEffect(() => {
+    error && navigate('/not-found');
+  }, [error]);
+
   return (
     <>
       {!jamaah.qrString ? (
-        'loading..'
+        <Loading midScreen />
       ) : (
         <Wrapper>
           <GoXCircle className="back" onClick={() => navigate('/jamaah')} />

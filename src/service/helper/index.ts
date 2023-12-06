@@ -1,6 +1,6 @@
 import { JamaahType } from '../../constants';
 
-export const jamaahMap = (data: any[] | null): JamaahType[] => {
+export const buildJamaahResp = (data: any[] | null): JamaahType[] => {
   return (
     data?.map((d) => {
       return {
