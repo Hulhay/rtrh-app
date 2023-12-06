@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Wrapper } from './Kajian.styles';
 import {
   AddButton,
@@ -6,15 +6,18 @@ import {
   SuccessBtmSheet,
   TableKajian,
 } from './components';
-import { Header, SearchBar } from '../../components';
+import { Header, Loading, SearchBar } from '../../components';
 import { KajianType, lang } from '../../constants';
-import { kajianData } from './dummy';
+import { kajianService } from '../../service';
+import { debounce } from 'lodash';
 
 const Kajian: React.FC = () => {
   const [keyword, setKeyword] = useState<string>('');
   const [isFormBtmSheet, setIsFormBtmSheet] = useState<boolean>(false);
   const [isSuccessBtmSheet, setIsSuccessBtmSheet] = useState<boolean>(false);
-  const [disabled, setDisabled] = useState<boolean>(true);
+  const [disabledSave, setDisabledSave] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [kajianData, setKajianData] = useState<KajianType[]>([]);
   const [kajian, setKajian] = useState<KajianType>({
     id: 0,
     name: '',
@@ -22,12 +25,33 @@ const Kajian: React.FC = () => {
     date: '',
   });
 
+  const getKajian = async () => {
+    setLoading(true);
+    try {
+      const { resp: kajianData } = await kajianService.getKajianDB();
+      setKajianData(kajianData);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const searchKajian = useRef(
+    debounce(async (keyword: string) => {
+      const { resp: kajianData } =
+        await kajianService.searchKajianByKeywordDB(keyword);
+      setKajianData(kajianData);
+    }, 500),
+  ).current;
+
   const onKeywordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(event.target.value);
   };
 
   const onClear = () => {
     setKeyword('');
+    getKajian();
   };
 
   const onClick = () => {
@@ -54,17 +78,39 @@ const Kajian: React.FC = () => {
     setKajian({ ...kajian, date: event.target.value });
   };
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(kajian);
+
+    setDisabledSave(true);
+    try {
+      await kajianService.insertKajianDB(kajian);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setDisabledSave(false);
+    }
 
     setIsFormBtmSheet(false);
     setIsSuccessBtmSheet(true);
   };
 
   useEffect(() => {
-    kajian.name && kajian.lecturer && kajian.date && setDisabled(false);
+    getKajian();
+  }, []);
+
+  useEffect(() => {
+    keyword && searchKajian(keyword);
+  }, [keyword]);
+
+  useEffect(() => {
+    kajian.name && kajian.lecturer && kajian.date && setDisabledSave(false);
   }, [kajian]);
+
+  useEffect(() => {
+    return () => {
+      searchKajian.cancel();
+    };
+  }, [searchKajian]);
 
   return (
     <React.Fragment>
@@ -76,14 +122,14 @@ const Kajian: React.FC = () => {
           onChange={onKeywordChange}
           onClear={onClear}
         />
-        <TableKajian kajianData={kajianData} />
+        {loading ? <Loading /> : <TableKajian kajianData={kajianData} />}
         <AddButton onClick={onClick} />
       </Wrapper>
 
       <FormBtmSheet
         isFormBtmSheet={isFormBtmSheet}
         kajian={kajian}
-        disabledSave={disabled}
+        disabledSave={disabledSave}
         onClose={onFormClose}
         onNameChange={onNameChange}
         onLecturerChange={onLecturerChange}

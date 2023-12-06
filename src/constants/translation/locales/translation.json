@@ -51,7 +51,8 @@
     },
     "service": {
       "err_jamaah_not_found": "Jamaah Tidak Ditemukan",
-      "err_wa_exists": "Nomot WhatssApp Sudah Digunakan"
+      "err_wa_exists": "Nomot WhatssApp Sudah Digunakan",
+      "err_kajian_not_found": "Kajian Tidak Ditemukan"
     }
   }
 }
