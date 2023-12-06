@@ -4,6 +4,7 @@ import {
   Jamaah,
   JamaahDetail,
   Kajian,
+  KajianDetail,
   NotFound,
   Scan,
 } from '../pages';
@@ -18,6 +19,10 @@ const Routes = createBrowserRouter([
       {
         index: true,
         element: <Kajian />,
+      },
+      {
+        path: '/kajian/:id',
+        element: <KajianDetail />,
       },
       {
         path: 'jamaah',

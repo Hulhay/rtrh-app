@@ -1,3 +1,5 @@
+import moment from 'moment';
+import 'moment/dist/locale/id';
 import { getTimeString, now } from '.';
 import { JamaahType } from '../constants';
 
@@ -31,4 +33,8 @@ export const parsingQr = (qrString: string) => {
     phoneNumber: parse[2],
     date: getTimeString(now()),
   };
+};
+
+export const formatDateString = (date = '', defaultFormat = 'YYYY-MM-DD') => {
+  return moment(date).format(defaultFormat);
 };

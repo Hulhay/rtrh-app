@@ -36,6 +36,14 @@
       },
       "success": "Kajian Berhasil Ditambahkan"
     },
+    "presensi": {
+      "header": "Kajian",
+      "total": "{{n}} Jamaah",
+      "table": {
+        "id": "ID",
+        "name": "Nama Jamaah"
+      }
+    },
     "qr": {
       "rtrh": "Rumah Tahfizh Raudhatul Huffadz",
       "address": "Nitikan Kota Yogyakarta"
