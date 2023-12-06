@@ -23,10 +23,10 @@ const BottomSheet: React.FC<BottomSheetProps> = (props) => {
   }, [props.active]);
 
   return (
-    <>
+    <React.Fragment>
       <div>{props.active && <BgBottomSheet />}</div>
       <div ref={ref}>{props.children}</div>
-    </>
+    </React.Fragment>
   );
 };
 

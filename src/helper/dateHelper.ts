@@ -1,3 +1,6 @@
+import moment from 'moment';
+import 'moment/dist/locale/id';
+
 export const now = (): Date => {
   return new Date();
 };
@@ -15,4 +18,8 @@ export const getTimeString = (date: Date): string => {
   }
 
   return `${hour}:${minute}`;
+};
+
+export const formatDateString = (date = '', defaultFormat = 'YYYY-MM-DD') => {
+  return moment(date).format(defaultFormat);
 };

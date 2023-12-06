@@ -19,7 +19,7 @@ export default {
   searchJamaahByKeywordDB: async (keyword: string) => {
     const { data } = await sbClient
       .from('jamaah')
-      .select('*')
+      .select('id,name')
       .ilike('name', `%${keyword}%`)
       .order('created_at', { ascending: false });
 

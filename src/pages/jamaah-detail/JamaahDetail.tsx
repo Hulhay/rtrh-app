@@ -63,7 +63,7 @@ const JamaahDetail: React.FC = () => {
   }, [error]);
 
   return (
-    <>
+    <React.Fragment>
       {!jamaah.qrString ? (
         <Loading midScreen />
       ) : (
@@ -82,7 +82,7 @@ const JamaahDetail: React.FC = () => {
           </DownloadButton>
         </Wrapper>
       )}
-    </>
+    </React.Fragment>
   );
 };
 

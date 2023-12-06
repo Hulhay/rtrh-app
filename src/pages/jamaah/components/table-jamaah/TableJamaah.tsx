@@ -7,7 +7,7 @@ import {
   NameCell,
   Row,
   Wrapper,
-} from './Table.styles';
+} from './TableJamaah.styles';
 import { JamaahType, lang } from '../../../../constants';
 import { Link } from 'react-router-dom';
 

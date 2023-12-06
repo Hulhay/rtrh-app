@@ -7,7 +7,7 @@ import {
   NameCell,
   Row,
   Wrapper,
-} from './Table.styles';
+} from './TableKajian.styles';
 import { KajianType, lang } from '../../../../constants';
 import { Link } from 'react-router-dom';
 
