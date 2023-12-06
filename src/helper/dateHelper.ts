@@ -23,3 +23,7 @@ export const getTimeString = (date: Date): string => {
 export const formatDateString = (date = '', defaultFormat = 'YYYY-MM-DD') => {
   return moment(date).format(defaultFormat);
 };
+
+export const todayDateString = () => {
+  return moment().startOf('day').format('YYYY-MM-DD');
+};
