@@ -28,7 +28,7 @@ const Scan: React.FC = () => {
   const [isValid, setIsValid] = useState<boolean>(false);
   const [kajianData, setKajianData] = useState<KajianType[]>([]);
   const [presensi, setPresensi] = useState<PresensiType>({
-    kajianId: 0,
+    kajianId: 1, // WILL IMPROVE LATER
     name: '',
     phoneNumber: '',
     uniqueId: '',
