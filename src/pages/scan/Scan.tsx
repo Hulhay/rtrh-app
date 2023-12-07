@@ -17,6 +17,8 @@ import { BottomSheet } from '../../components';
 import { parsingQr, validateQrString } from '../../helper';
 import { IoIosCheckmarkCircle } from 'react-icons/io';
 import { AiFillQuestionCircle } from 'react-icons/ai';
+import { kajianService, presensiService } from '../../service';
+import { KajianType, PresensiType } from '../../constants';
 
 const Scan: React.FC = () => {
   const navigate = useNavigate();
@@ -24,11 +26,31 @@ const Scan: React.FC = () => {
   const [qrCode, setQrCode] = useState<string>('');
   const [isBtmSheet, setIsBtmSheet] = useState<boolean>(false);
   const [isValid, setIsValid] = useState<boolean>(false);
-  const [jamaah, setJamaah] = useState({
+  const [kajianData, setKajianData] = useState<KajianType[]>([]);
+  const [presensi, setPresensi] = useState<PresensiType>({
+    kajianId: 0,
     name: '',
     phoneNumber: '',
-    date: '',
+    uniqueId: '',
+    time: '',
   });
+
+  const getKajianToday = async () => {
+    const { resp: kajianData } = await kajianService.getKajianTodayDB();
+    setKajianData(kajianData);
+  };
+
+  const insertPresensi = async (presensi: PresensiType) => {
+    try {
+      await presensiService.insertPresensiDB(presensi);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setPresensi({ ...presensi, kajianId: parseInt(event.target.value) });
+  };
 
   const onQrCode = (qrCode: string) => {
     setQrCode(qrCode);
@@ -40,19 +62,35 @@ const Scan: React.FC = () => {
   };
 
   useEffect(() => {
-    if (qrCode !== '') {
-      if (!validateQrString(qrCode)) {
-        setIsValid(false);
+    getKajianToday();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (qrCode !== '') {
+        if (!validateQrString(qrCode)) {
+          setIsValid(false);
+          setIsBtmSheet(true);
+          return;
+        }
+
+        const { name, phoneNumber, uniqueId, time } = parsingQr(qrCode);
+        const updatedPresensi = {
+          ...presensi,
+          name,
+          phoneNumber,
+          uniqueId,
+          time,
+        };
+
+        setPresensi(updatedPresensi);
+        await insertPresensi(updatedPresensi);
+        setIsValid(true);
         setIsBtmSheet(true);
-        return;
       }
+    };
 
-      const { name, phoneNumber, date } = parsingQr(qrCode);
-
-      setJamaah({ name, phoneNumber, date });
-      setIsValid(true);
-      setIsBtmSheet(true);
-    }
+    fetchData();
   }, [qrCode]);
 
   return (
@@ -60,21 +98,25 @@ const Scan: React.FC = () => {
       <Wrapper>
         <GoXCircleFill className="back" onClick={() => navigate('/')} />
         <ScannerWrapper>
-          <ContinuousQrScanner
-            onQrCode={onQrCode}
-            hidden={false}
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          />
+          {presensi.kajianId > 0 && (
+            <ContinuousQrScanner
+              onQrCode={onQrCode}
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+          )}
         </ScannerWrapper>
         <SelectWrapper>
-          <Select defaultValue="placeholder">
+          <Select defaultValue="placeholder" onChange={onChange}>
             <Option value="placeholder" disabled>
               Pilih Kajian
             </Option>
-            <Option value="1">Kajian Mantab 1</Option>
-            <Option value="2">Kajian Mantab 2</Option>
-            <Option value="3">Kajian Mantab 3</Option>
-            <Option value="4">Kajian Mantab 4</Option>
+            {kajianData.map((kajian, index) => {
+              return (
+                <Option value={kajian.id} key={index}>
+                  {kajian.name}
+                </Option>
+              );
+            })}
           </Select>
         </SelectWrapper>
       </Wrapper>
@@ -86,9 +128,9 @@ const Scan: React.FC = () => {
               <IoIosCheckmarkCircle className="icon" />
               <Description>Ahlan Wa Sahlan</Description>
               <JamaahWrapper>
-                <p>{jamaah.name}</p>
-                <p>{jamaah.phoneNumber}</p>
-                <p>{jamaah.date}</p>
+                <p>{presensi.name}</p>
+                <p>{presensi.phoneNumber}</p>
+                <p>{presensi.time}</p>
               </JamaahWrapper>
             </React.Fragment>
           ) : (

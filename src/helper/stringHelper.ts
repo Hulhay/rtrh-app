@@ -29,6 +29,7 @@ export const parsingQr = (qrString: string) => {
   return {
     name: parse[1].split('%20').join(' '),
     phoneNumber: parse[2],
-    date: getTimeString(now()),
+    uniqueId: parse[3],
+    time: getTimeString(now()),
   };
 };

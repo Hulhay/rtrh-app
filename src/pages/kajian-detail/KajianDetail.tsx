@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { kajianService } from '../../service';
-import { KajianType, lang } from '../../constants';
+import { kajianService, presensiService } from '../../service';
+import { JamaahType, KajianType, lang } from '../../constants';
 import { Header, Loading } from '../../components';
 import { KajianInfo, Wrapper } from './KajianDetail.styles';
 import { formatDateString } from '../../helper';
@@ -12,6 +12,8 @@ const KajianDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
   const [error, setError] = useState<any>();
+  const [count, setCount] = useState<number>(0);
+  const [jamaah, setJamaah] = useState<JamaahType[]>([]);
   const [kajian, setKajian] = useState<KajianType>({
     id: 0,
     name: '',
@@ -25,8 +27,16 @@ const KajianDetail: React.FC = () => {
     setKajian(kajian);
   };
 
+  const getPresensiByKajianID = async (id: string) => {
+    const { resp: jamaah, count } =
+      await presensiService.getPresensiByKajianIDDB(id);
+    setJamaah(jamaah);
+    setCount(count);
+  };
+
   useEffect(() => {
     getKajianByID(id as string);
+    getPresensiByKajianID(id as string);
   }, []);
 
   useEffect(() => {
@@ -44,24 +54,9 @@ const KajianDetail: React.FC = () => {
             <p className="title">{kajian.name}</p>
             <p>{kajian.lecturer}</p>
             <p>{formatDateString(kajian.date, 'D MMMM YYYY')}</p>
-            <p className="total">{lang('presensi.total', { n: 50 })}</p>
+            <p className="total">{lang('presensi.total', { n: count })}</p>
           </KajianInfo>
-          <TablePresensi
-            jamaahData={[
-              {
-                id: 1,
-                name: 'Fulan bin Fulan',
-                phoneNumber: '',
-                uniqueId: '',
-              },
-              {
-                id: 2,
-                name: 'Fulanah binti Fulan',
-                phoneNumber: '',
-                uniqueId: '',
-              },
-            ]}
-          />
+          <TablePresensi jamaahData={jamaah} />
         </Wrapper>
       )}
     </React.Fragment>
