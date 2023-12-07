@@ -28,7 +28,7 @@ const Scan: React.FC = () => {
   const [isValid, setIsValid] = useState<boolean>(false);
   const [kajianData, setKajianData] = useState<KajianType[]>([]);
   const [presensi, setPresensi] = useState<PresensiType>({
-    kajianId: 1, // WILL IMPROVE LATER
+    kajianId: 0,
     name: '',
     phoneNumber: '',
     uniqueId: '',
@@ -98,11 +98,12 @@ const Scan: React.FC = () => {
       <Wrapper>
         <GoXCircleFill className="back" onClick={() => navigate('/')} />
         <ScannerWrapper>
-          <ContinuousQrScanner
-            onQrCode={onQrCode}
-            hidden={false}
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          />
+          {presensi.kajianId > 0 && (
+            <ContinuousQrScanner
+              onQrCode={onQrCode}
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+          )}
         </ScannerWrapper>
         <SelectWrapper>
           <Select defaultValue="placeholder" onChange={onChange}>
