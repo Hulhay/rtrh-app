@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-  CloseBtn,
-  Description,
-  JamaahWrapper,
-  MsgWrapper,
   Option,
   ScannerWrapper,
   Select,
@@ -13,19 +9,18 @@ import {
 import { GoXCircleFill } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
 import ContinuousQrScanner from 'react-webcam-qr-scanner.ts';
-import { BottomSheet } from '../../components';
+import { MsgBtmSheet } from '../../components';
 import { parsingQr, validateQrString } from '../../helper';
-import { IoIosCheckmarkCircle } from 'react-icons/io';
-import { AiFillQuestionCircle } from 'react-icons/ai';
 import { kajianService, presensiService } from '../../service';
-import { KajianType, PresensiType } from '../../constants';
+import { KajianType, PresensiType, lang } from '../../constants';
+import { SuccessBtmSheet } from './components';
 
 const Scan: React.FC = () => {
   const navigate = useNavigate();
 
   const [qrCode, setQrCode] = useState<string>('');
-  const [isBtmSheet, setIsBtmSheet] = useState<boolean>(false);
-  const [isValid, setIsValid] = useState<boolean>(false);
+  const [isSuccessBtmSheet, setIsSuccessBtmSheet] = useState<boolean>(false);
+  const [isMsgBtmSheet, setIsMsgBtmSheet] = useState<boolean>(false);
   const [kajianData, setKajianData] = useState<KajianType[]>([]);
   const [presensi, setPresensi] = useState<PresensiType>({
     kajianId: 0,
@@ -44,7 +39,29 @@ const Scan: React.FC = () => {
     try {
       await presensiService.insertPresensiDB(presensi);
     } catch (error) {
-      console.log(error);
+      console.error(error);
+    }
+  };
+
+  const scanQr = async () => {
+    if (qrCode !== '') {
+      if (!validateQrString(qrCode)) {
+        setIsMsgBtmSheet(true);
+        return;
+      }
+
+      const { name, phoneNumber, uniqueId, time } = parsingQr(qrCode);
+      const updatedPresensi = {
+        ...presensi,
+        name,
+        phoneNumber,
+        uniqueId,
+        time,
+      };
+
+      setPresensi(updatedPresensi);
+      await insertPresensi(updatedPresensi);
+      setIsSuccessBtmSheet(true);
     }
   };
 
@@ -57,7 +74,8 @@ const Scan: React.FC = () => {
   };
 
   const onClose = () => {
-    setIsBtmSheet(false);
+    setIsSuccessBtmSheet(false);
+    setIsMsgBtmSheet(false);
     window.location.reload();
   };
 
@@ -66,31 +84,7 @@ const Scan: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (qrCode !== '') {
-        if (!validateQrString(qrCode)) {
-          setIsValid(false);
-          setIsBtmSheet(true);
-          return;
-        }
-
-        const { name, phoneNumber, uniqueId, time } = parsingQr(qrCode);
-        const updatedPresensi = {
-          ...presensi,
-          name,
-          phoneNumber,
-          uniqueId,
-          time,
-        };
-
-        setPresensi(updatedPresensi);
-        await insertPresensi(updatedPresensi);
-        setIsValid(true);
-        setIsBtmSheet(true);
-      }
-    };
-
-    fetchData();
+    scanQr();
   }, [qrCode]);
 
   return (
@@ -108,7 +102,7 @@ const Scan: React.FC = () => {
         <SelectWrapper>
           <Select defaultValue="placeholder" onChange={onChange}>
             <Option value="placeholder" disabled>
-              Pilih Kajian
+              {lang('scan.choose_kajian')}
             </Option>
             {kajianData.map((kajian, index) => {
               return (
@@ -121,28 +115,18 @@ const Scan: React.FC = () => {
         </SelectWrapper>
       </Wrapper>
 
-      <BottomSheet active={false} onClose={onClose}>
-        <MsgWrapper className={isBtmSheet ? 'active' : ''}>
-          {isValid ? (
-            <React.Fragment>
-              <IoIosCheckmarkCircle className="icon" />
-              <Description>Ahlan Wa Sahlan</Description>
-              <JamaahWrapper>
-                <p>{presensi.name}</p>
-                <p>{presensi.phoneNumber}</p>
-                <p>{presensi.time}</p>
-              </JamaahWrapper>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              <AiFillQuestionCircle className="icon" />
-              <Description>QR Tidak Dikenal</Description>
-              <p>Silakan Coba Lagi</p>
-            </React.Fragment>
-          )}
-          <CloseBtn onClick={onClose}>Tutup</CloseBtn>
-        </MsgWrapper>
-      </BottomSheet>
+      <SuccessBtmSheet
+        isSuccessBtmSheet={isSuccessBtmSheet}
+        onClose={onClose}
+        presensi={presensi}
+      />
+
+      <MsgBtmSheet
+        isMsgBtmSheet={isMsgBtmSheet}
+        type="question"
+        title={lang('scan.unknown_qr')}
+        onClose={onClose}
+      />
     </React.Fragment>
   );
 };

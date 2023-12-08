@@ -19,6 +19,7 @@ const JamaahDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
   const [error, setError] = useState<any>();
+  const [loading, setLoading] = useState<boolean>(false);
   const [jamaah, setJamaah] = useState<JamaahType>({
     id: 0,
     name: '',
@@ -27,9 +28,16 @@ const JamaahDetail: React.FC = () => {
   });
 
   const getJamaahByID = async (id: string) => {
-    const { resp: jamaah, error } = await jamaahService.getJamaahByIDDB(id);
-    setError(error?.message);
-    setJamaah(jamaah);
+    setLoading(true);
+    try {
+      const { resp: jamaah, error } = await jamaahService.getJamaahByIDDB(id);
+      setError(error?.message);
+      setJamaah(jamaah);
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const onImageDownload = () => {
@@ -64,7 +72,7 @@ const JamaahDetail: React.FC = () => {
 
   return (
     <React.Fragment>
-      {!jamaah.qrString ? (
+      {loading ? (
         <Loading midScreen />
       ) : (
         <Wrapper>

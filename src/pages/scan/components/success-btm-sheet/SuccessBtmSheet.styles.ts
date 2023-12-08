@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { palette } from '../../../../constants';
 
-export const Wrapper = styled.form`
+export const MsgWrapper = styled.div`
   z-index: 1;
   width: 100%;
   padding: 47px 17px 35px;
@@ -32,6 +32,11 @@ export const Wrapper = styled.form`
 export const Description = styled.p`
   font-weight: 600;
   font-size: 20px;
+`;
+
+export const JamaahWrapper = styled.div`
+  text-align: center;
+  line-height: 1.2;
 `;
 
 export const CloseBtn = styled.button`

@@ -5,19 +5,8 @@ import { buildJamaahResp } from './helper';
 import { buildQRStringFromResponse } from '../helper';
 
 export default {
-  getJamaahDB: async () => {
+  getJamaahDB: async (keyword?: string) => {
     const { data, error } = await sbClient
-      .from('jamaah')
-      .select('id,name')
-      .order('created_at', { ascending: false });
-
-    const resp: JamaahType[] = buildJamaahResp(data);
-
-    return { resp, error };
-  },
-
-  searchJamaahByKeywordDB: async (keyword: string) => {
-    const { data } = await sbClient
       .from('jamaah')
       .select('id,name')
       .ilike('name', `%${keyword}%`)
@@ -25,14 +14,15 @@ export default {
 
     const resp: JamaahType[] = buildJamaahResp(data);
 
-    return { resp };
+    return { resp, error };
   },
 
   getJamaahByIDDB: async (id: string) => {
     const { data, error } = await sbClient
       .from('jamaah')
       .select('*')
-      .eq('id', id);
+      .eq('id', id)
+      .single();
 
     let resp: JamaahType = {
       id: 0,
@@ -42,7 +32,7 @@ export default {
       qrString: '',
     };
 
-    if (data?.length === 0) {
+    if (!data) {
       const error: PostgrestError = {
         code: '404',
         details: '',
@@ -53,11 +43,11 @@ export default {
     }
 
     resp = {
-      id: data?.[0]?.id,
-      name: data?.[0]?.name,
-      phoneNumber: data?.[0]?.phone_number,
-      uniqueId: data?.[0]?.unique_id,
-      qrString: buildQRStringFromResponse(data?.[0]),
+      id: data?.id,
+      name: data?.name,
+      phoneNumber: data?.phone_number,
+      uniqueId: data?.unique_id,
+      qrString: buildQRStringFromResponse(data),
     };
 
     return { resp, error };
@@ -79,17 +69,13 @@ export default {
       return { error };
     }
 
-    const { error } = await sbClient
-      .from('jamaah')
-      .insert([
-        {
-          name: jamaah.name,
-          phone_number: jamaah.phoneNumber,
-          unique_id: jamaah.uniqueId,
-        },
-      ])
-      .select();
-
+    const { error } = await sbClient.from('jamaah').insert([
+      {
+        name: jamaah.name,
+        phone_number: jamaah.phoneNumber,
+        unique_id: jamaah.uniqueId,
+      },
+    ]);
     return { error };
   },
 };
