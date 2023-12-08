@@ -5,21 +5,10 @@ import { buildKajianResp } from './helper';
 import { todayDateString } from '../helper';
 
 export default {
-  getKajianDB: async () => {
+  getKajianDB: async (keyword?: string) => {
     const { data } = await sbClient
       .from('kajian')
       .select('id,name')
-      .order('date', { ascending: false });
-
-    const resp: KajianType[] = buildKajianResp(data);
-
-    return { resp };
-  },
-
-  searchKajianByKeywordDB: async (keyword: string) => {
-    const { data } = await sbClient
-      .from('kajian')
-      .select('*')
       .ilike('name', `%${keyword}%`)
       .order('date', { ascending: false });
 
@@ -32,7 +21,8 @@ export default {
     const { data, error } = await sbClient
       .from('kajian')
       .select('*')
-      .eq('id', id);
+      .eq('id', id)
+      .single();
 
     let resp: KajianType = {
       id: 0,
@@ -41,7 +31,7 @@ export default {
       date: '',
     };
 
-    if (data?.length === 0) {
+    if (!data) {
       const error: PostgrestError = {
         code: '404',
         details: '',
@@ -52,26 +42,23 @@ export default {
     }
 
     resp = {
-      id: data?.[0]?.id,
-      name: data?.[0]?.name,
-      lecturer: data?.[0]?.lecturer,
-      date: data?.[0]?.date,
+      id: data?.id,
+      name: data?.name,
+      lecturer: data?.lecturer,
+      date: data?.date,
     };
 
     return { resp, error };
   },
 
   insertKajianDB: async (kajian: KajianType) => {
-    const { error } = await sbClient
-      .from('kajian')
-      .insert([
-        {
-          name: kajian.name,
-          lecturer: kajian.lecturer,
-          date: kajian.date,
-        },
-      ])
-      .select();
+    const { error } = await sbClient.from('kajian').insert([
+      {
+        name: kajian.name,
+        lecturer: kajian.lecturer,
+        date: kajian.date,
+      },
+    ]);
 
     return { error };
   },

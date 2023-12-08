@@ -9,9 +9,11 @@ import {
 import { RiQrScanFill, RiQrScanLine } from 'react-icons/ri';
 import { Link, useLocation } from 'react-router-dom';
 import { useScroll } from '../../hooks';
+import { getMenuActive } from './Navbar.helper';
 
 const Navbar: React.FC = () => {
   const loc = useLocation();
+  const menu = getMenuActive(loc);
   const scroll = useScroll();
 
   const [hide, setHide] = useState<string>('');
@@ -27,21 +29,21 @@ const Navbar: React.FC = () => {
   return (
     <Wrapper className={hide}>
       <Link to={'/'}>
-        {loc.pathname === '/' ? (
+        {menu === 'kajian' ? (
           <BsCalendarEventFill className="icon" />
         ) : (
           <BsCalendarEvent className="icon" />
         )}
       </Link>
       <Link to={'/scan'}>
-        {loc.pathname === '/scan' ? (
+        {menu === 'scan' ? (
           <RiQrScanFill className="icon" />
         ) : (
           <RiQrScanLine className="icon" />
         )}
       </Link>
       <Link to={'/jamaah'}>
-        {loc.pathname === '/jamaah' ? (
+        {menu === 'jamaah' ? (
           <BsPeopleFill className="icon" />
         ) : (
           <BsPeople className="icon" />

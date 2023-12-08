@@ -13,6 +13,7 @@ const KajianDetail: React.FC = () => {
 
   const [error, setError] = useState<any>();
   const [count, setCount] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
   const [jamaah, setJamaah] = useState<JamaahType[]>([]);
   const [kajian, setKajian] = useState<KajianType>({
     id: 0,
@@ -22,9 +23,16 @@ const KajianDetail: React.FC = () => {
   });
 
   const getKajianByID = async (id: string) => {
-    const { resp: kajian, error } = await kajianService.getKajianByIDDB(id);
-    setError(error?.message);
-    setKajian(kajian);
+    setLoading(true);
+    try {
+      const { resp: kajian, error } = await kajianService.getKajianByIDDB(id);
+      setError(error?.message);
+      setKajian(kajian);
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const getPresensiByKajianID = async (id: string) => {
@@ -45,7 +53,7 @@ const KajianDetail: React.FC = () => {
 
   return (
     <React.Fragment>
-      {!kajian.name ? (
+      {loading ? (
         <Loading midScreen />
       ) : (
         <Wrapper>

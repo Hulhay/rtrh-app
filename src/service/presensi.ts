@@ -7,9 +7,10 @@ export default {
     const { data: jamaah } = await sbClient
       .from('jamaah')
       .select('id')
-      .eq('unique_id', req.uniqueId);
+      .eq('unique_id', req.uniqueId)
+      .single();
 
-    if (jamaah?.length === 0) {
+    if (!jamaah) {
       const error: PostgrestError = {
         code: '404',
         details: '',
@@ -19,11 +20,9 @@ export default {
       return { error };
     }
 
-    const jamaahId = jamaah?.[0].id;
-
     const { error } = await sbClient
       .from('presensi')
-      .insert([{ kajian_id: req.kajianId, jamaah_id: jamaahId }]);
+      .insert([{ kajian_id: req.kajianId, jamaah_id: jamaah?.id }]);
 
     return { error };
   },

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Header, Loading, MsgBtmSheet, SearchBar } from '../../components';
+import { Header, MsgBtmSheet, SearchBar } from '../../components';
 import { JamaahType, lang } from '../../constants';
 import { AddButton, FormBtmSheet, TableJamaah } from './components';
 import { Wrapper } from './Jamaah.styles';
@@ -29,25 +29,57 @@ const Jamaah: React.FC = () => {
     uniqueId: '',
   });
 
-  const getJamaah = async () => {
-    setLoading(true);
-    try {
-      const { resp: jamaahData } = await jamaahService.getJamaahDB();
-      setJamaahData(jamaahData);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const searchJamaah = useRef(
+  const getJamaah = useRef(
     debounce(async (keyword: string) => {
-      const { resp: jamaahData } =
-        await jamaahService.searchJamaahByKeywordDB(keyword);
-      setJamaahData(jamaahData);
+      setLoading(true);
+      try {
+        const { resp: jamaahData } = await jamaahService.getJamaahDB(keyword);
+        setJamaahData(jamaahData);
+      } catch (error) {
+        console.error('Error:', error);
+      } finally {
+        setLoading(false);
+      }
     }, 500),
   ).current;
+
+  const insertNewJamaah = async (jamaah: JamaahType, uniqueId: string) => {
+    let errMsg = '';
+    setDisabledSave(true);
+    try {
+      const { error } = await jamaahService.insertJamaahDB({
+        ...jamaah,
+        uniqueId: uniqueId,
+      });
+
+      if (error && isMountedRef.current) {
+        errMsg = error.message;
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setDisabledSave(false);
+    }
+
+    return errMsg;
+  };
+
+  const resetJamaah = () => {
+    setJamaah({
+      ...jamaah,
+      name: '',
+      phoneNumber: '',
+    });
+  };
+
+  const dispatchJamaah = (jamaah: JamaahType, jamaahQRString: string) => {
+    dispatch(
+      insertJamaah({
+        ...jamaah,
+        qrString: jamaahQRString,
+      }),
+    );
+  };
 
   const onKeywordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(event.target.value);
@@ -55,7 +87,6 @@ const Jamaah: React.FC = () => {
 
   const onClear = () => {
     setKeyword('');
-    getJamaah();
   };
 
   const onClick = () => {
@@ -65,11 +96,7 @@ const Jamaah: React.FC = () => {
   const onClose = () => {
     setIsFormBtmSheet(false);
     setIsMsgBtmSheet(false);
-    setJamaah({
-      ...jamaah,
-      name: '',
-      phoneNumber: '',
-    });
+    resetJamaah();
   };
 
   const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,39 +111,14 @@ const Jamaah: React.FC = () => {
     event.preventDefault();
     const { jamaahQRString, uniqueId } = generateQRString(jamaah);
 
-    dispatch(
-      insertJamaah({
-        ...jamaah,
-        qrString: jamaahQRString,
-      }),
-    );
+    dispatchJamaah(jamaah, jamaahQRString);
+    const errMsg = await insertNewJamaah(jamaah, uniqueId);
 
-    let _errMsg = '';
-    setDisabledSave(true);
-    try {
-      const { error } = await jamaahService.insertJamaahDB({
-        ...jamaah,
-        uniqueId: uniqueId,
-      });
-
-      if (error && isMountedRef.current) {
-        _errMsg = error.message;
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setDisabledSave(false);
-    }
-
-    if (_errMsg && isMountedRef.current) {
-      setErrMsg(_errMsg);
+    if (errMsg && isMountedRef.current) {
+      setErrMsg(errMsg);
       setIsFormBtmSheet(false);
       setIsMsgBtmSheet(true);
-      setJamaah({
-        ...jamaah,
-        name: '',
-        phoneNumber: '',
-      });
+      resetJamaah();
       return;
     }
 
@@ -126,11 +128,7 @@ const Jamaah: React.FC = () => {
   };
 
   useEffect(() => {
-    getJamaah();
-  }, []);
-
-  useEffect(() => {
-    keyword && searchJamaah(keyword);
+    getJamaah(keyword);
   }, [keyword]);
 
   useEffect(() => {
@@ -145,9 +143,9 @@ const Jamaah: React.FC = () => {
 
   useEffect(() => {
     return () => {
-      searchJamaah.cancel();
+      getJamaah.cancel();
     };
-  }, [searchJamaah]);
+  }, [getJamaah]);
 
   return (
     <React.Fragment>
@@ -159,7 +157,7 @@ const Jamaah: React.FC = () => {
           onChange={onKeywordChange}
           onClear={onClear}
         />
-        {loading ? <Loading /> : <TableJamaah jamaahData={jamaahData} />}
+        <TableJamaah jamaahData={jamaahData} loading={loading} />
         <AddButton onClick={onClick} />
       </Wrapper>
 

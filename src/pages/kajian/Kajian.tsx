@@ -1,12 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Wrapper } from './Kajian.styles';
-import {
-  AddButton,
-  FormBtmSheet,
-  SuccessBtmSheet,
-  TableKajian,
-} from './components';
-import { Header, Loading, SearchBar } from '../../components';
+import { AddButton, FormBtmSheet, TableKajian } from './components';
+import { Header, MsgBtmSheet, SearchBar } from '../../components';
 import { KajianType, lang } from '../../constants';
 import { kajianService } from '../../service';
 import { debounce } from 'lodash';
@@ -14,7 +9,7 @@ import { debounce } from 'lodash';
 const Kajian: React.FC = () => {
   const [keyword, setKeyword] = useState<string>('');
   const [isFormBtmSheet, setIsFormBtmSheet] = useState<boolean>(false);
-  const [isSuccessBtmSheet, setIsSuccessBtmSheet] = useState<boolean>(false);
+  const [isMsgBtmSheet, setIsMsgBtmSheet] = useState<boolean>(false);
   const [disabledSave, setDisabledSave] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const [kajianData, setKajianData] = useState<KajianType[]>([]);
@@ -25,23 +20,17 @@ const Kajian: React.FC = () => {
     date: '',
   });
 
-  const getKajian = async () => {
-    setLoading(true);
-    try {
-      const { resp: kajianData } = await kajianService.getKajianDB();
-      setKajianData(kajianData);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const searchKajian = useRef(
+  const getKajian = useRef(
     debounce(async (keyword: string) => {
-      const { resp: kajianData } =
-        await kajianService.searchKajianByKeywordDB(keyword);
-      setKajianData(kajianData);
+      setLoading(true);
+      try {
+        const { resp: kajianData } = await kajianService.getKajianDB(keyword);
+        setKajianData(kajianData);
+      } catch (error) {
+        console.error('Error:', error);
+      } finally {
+        setLoading(false);
+      }
     }, 500),
   ).current;
 
@@ -51,19 +40,15 @@ const Kajian: React.FC = () => {
 
   const onClear = () => {
     setKeyword('');
-    getKajian();
   };
 
   const onClick = () => {
     setIsFormBtmSheet(true);
   };
 
-  const onFormClose = () => {
+  const onClose = () => {
     setIsFormBtmSheet(false);
-  };
-
-  const onSuccessClose = () => {
-    setIsSuccessBtmSheet(false);
+    setIsMsgBtmSheet(false);
   };
 
   const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,21 +70,18 @@ const Kajian: React.FC = () => {
     try {
       await kajianService.insertKajianDB(kajian);
     } catch (error) {
-      console.log(error);
+      console.error('Error:', error);
     } finally {
       setDisabledSave(false);
     }
 
     setIsFormBtmSheet(false);
-    setIsSuccessBtmSheet(true);
+    setIsMsgBtmSheet(true);
+    setKajianData([kajian, ...kajianData]);
   };
 
   useEffect(() => {
-    getKajian();
-  }, []);
-
-  useEffect(() => {
-    keyword && searchKajian(keyword);
+    getKajian(keyword);
   }, [keyword]);
 
   useEffect(() => {
@@ -108,9 +90,9 @@ const Kajian: React.FC = () => {
 
   useEffect(() => {
     return () => {
-      searchKajian.cancel();
+      getKajian.cancel();
     };
-  }, [searchKajian]);
+  }, [getKajian]);
 
   return (
     <React.Fragment>
@@ -122,7 +104,7 @@ const Kajian: React.FC = () => {
           onChange={onKeywordChange}
           onClear={onClear}
         />
-        {loading ? <Loading /> : <TableKajian kajianData={kajianData} />}
+        <TableKajian kajianData={kajianData} loading={loading} />
         <AddButton onClick={onClick} />
       </Wrapper>
 
@@ -130,16 +112,18 @@ const Kajian: React.FC = () => {
         isFormBtmSheet={isFormBtmSheet}
         kajian={kajian}
         disabledSave={disabledSave}
-        onClose={onFormClose}
+        onClose={onClose}
         onNameChange={onNameChange}
         onLecturerChange={onLecturerChange}
         onDateChange={onDateChange}
         onSubmit={onSubmit}
       />
 
-      <SuccessBtmSheet
-        isSuccessBtmSheet={isSuccessBtmSheet}
-        onClose={onSuccessClose}
+      <MsgBtmSheet
+        isMsgBtmSheet={isMsgBtmSheet}
+        type="info"
+        title={lang('kajian.success')}
+        onClose={onClose}
       />
     </React.Fragment>
   );
