@@ -5,12 +5,15 @@ export const generateUniqueId = (): string => {
   return Math.random().toString(16).slice(2);
 };
 
-export const generateQRString = (jamaah: JamaahType) => {
-  const uniqueId = generateUniqueId();
+export const generateQRString = (jamaah: JamaahType, uniqueId?: string) => {
+  let uid = uniqueId;
+  if (!uid) {
+    uid = generateUniqueId();
+  }
   const name = jamaah.name.split(' ').join('%20');
   return {
-    jamaahQRString: `RTRH/${name}/${jamaah.phoneNumber}/${uniqueId}`,
-    uniqueId: uniqueId,
+    jamaahQRString: `RTRH/${name}/${jamaah.phoneNumber}/${uid}`,
+    uniqueId: uid,
   };
 };
 

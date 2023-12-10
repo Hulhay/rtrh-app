@@ -10,12 +10,14 @@
       },
       "form": {
         "title": "Buat Data Jamaah Baru",
+        "edit_title": "Ubah Data Jamaah",
         "name": "Nama Jamaah",
         "name_placeholder": "Masukkan Nama Jamaah",
         "phone": "Nomor WhatssApp Jamaah",
         "phone_placeholder": "Masukkan Nomor WhatssApp Jamaah"
       },
-      "success": "Jamaah Berhasil Ditambahkan"
+      "success": "Jamaah Berhasil Ditambahkan",
+      "edit_success": "Jamaah Berhasil diubah"
     },
     "kajian": {
       "header": "Kajian",
@@ -58,7 +60,8 @@
     "button": {
       "save": "Simpan",
       "download_qr": "Download QR Code",
-      "close": "Tutup"
+      "close": "Tutup",
+      "edit": "Ubah Data"
     },
     "service": {
       "err_jamaah_not_found": "Jamaah Tidak Ditemukan",

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import {
+  Action,
   DownloadButton,
+  EditButton,
   Header,
   JamaahInfo,
   QRWrapper,
@@ -8,11 +10,12 @@ import {
 } from './JamaahDetail.styles';
 import { GoXCircle } from 'react-icons/go';
 import { useNavigate, useParams } from 'react-router-dom';
-import { drawQRCode } from '../../helper';
+import { drawQRCode, generateQRString } from '../../helper';
 import { JamaahType, lang } from '../../constants';
 import QRCode from 'react-qr-code';
 import { jamaahService } from '../../service';
-import { Loading } from '../../components';
+import { Loading, MsgBtmSheet } from '../../components';
+import { FormBtmSheet } from './components';
 
 const JamaahDetail: React.FC = () => {
   const navigate = useNavigate();
@@ -20,7 +23,16 @@ const JamaahDetail: React.FC = () => {
 
   const [error, setError] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [isFormBtmSheet, setIsFormBtmSheet] = useState<boolean>(false);
+  const [isMsgBtmSheet, setIsMsgBtmSheet] = useState<boolean>(false);
+  const [disabledSave, setDisabledSave] = useState<boolean>(true);
   const [jamaah, setJamaah] = useState<JamaahType>({
+    id: 0,
+    name: '',
+    phoneNumber: '',
+    uniqueId: '',
+  });
+  const [uJamaah, setUJamaah] = useState<JamaahType>({
     id: 0,
     name: '',
     phoneNumber: '',
@@ -31,12 +43,24 @@ const JamaahDetail: React.FC = () => {
     setLoading(true);
     try {
       const { resp: jamaah, error } = await jamaahService.getJamaahByIDDB(id);
-      setError(error?.message);
       setJamaah(jamaah);
+      setUJamaah(jamaah);
+      setError(error?.message);
     } catch (error) {
       console.error('Error:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const updateJamaahByID = async (jamaah: JamaahType, id: string) => {
+    setDisabledSave(true);
+    try {
+      await jamaahService.updateJamaahByIDDB(jamaah, id);
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setDisabledSave(false);
     }
   };
 
@@ -62,6 +86,35 @@ const JamaahDetail: React.FC = () => {
     }
   };
 
+  const onEditClick = () => {
+    setUJamaah(jamaah);
+    setIsFormBtmSheet(true);
+  };
+
+  const onClose = () => {
+    setIsFormBtmSheet(false);
+    setIsMsgBtmSheet(false);
+  };
+
+  const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUJamaah({ ...jamaah, name: event.target.value });
+  };
+
+  const onPhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUJamaah({ ...jamaah, phoneNumber: event.target.value });
+  };
+
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const { jamaahQRString: qrString } = generateQRString(
+      uJamaah,
+      uJamaah.uniqueId,
+    );
+    await updateJamaahByID(uJamaah, id as string);
+    setJamaah({ ...uJamaah, qrString });
+    setIsFormBtmSheet(false);
+  };
+
   useEffect(() => {
     getJamaahByID(id as string);
   }, []);
@@ -69,6 +122,14 @@ const JamaahDetail: React.FC = () => {
   useEffect(() => {
     error && navigate('/not-found');
   }, [error]);
+
+  useEffect(() => {
+    if (jamaah.name && jamaah.phoneNumber) {
+      setDisabledSave(false);
+    } else {
+      setDisabledSave(true);
+    }
+  }, [jamaah]);
 
   return (
     <React.Fragment>
@@ -85,11 +146,31 @@ const JamaahDetail: React.FC = () => {
             <p>{jamaah.name}</p>
             <p>{jamaah.phoneNumber}</p>
           </JamaahInfo>
-          <DownloadButton onClick={onImageDownload}>
-            {lang('button.download_qr')}
-          </DownloadButton>
+          <Action>
+            <EditButton onClick={onEditClick}>{lang('button.edit')}</EditButton>
+            <DownloadButton onClick={onImageDownload}>
+              {lang('button.download_qr')}
+            </DownloadButton>
+          </Action>
         </Wrapper>
       )}
+
+      <FormBtmSheet
+        jamaah={uJamaah}
+        isFormBtmSheet={isFormBtmSheet}
+        disabledSave={disabledSave}
+        onClose={onClose}
+        onNameChange={onNameChange}
+        onPhoneChange={onPhoneChange}
+        onSubmit={onSubmit}
+      />
+
+      <MsgBtmSheet
+        isMsgBtmSheet={isMsgBtmSheet}
+        type="info"
+        title={lang('jamaah.edit_success')}
+        onClose={onClose}
+      />
     </React.Fragment>
   );
 };
