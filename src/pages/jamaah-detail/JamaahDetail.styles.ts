@@ -38,6 +38,22 @@ export const JamaahInfo = styled.div`
   margin-top: 50px;
 `;
 
+export const Action = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+`;
+
+export const EditButton = styled.button`
+  background-color: ${palette.white};
+  color: ${palette.primary};
+  font-size: 14px;
+  padding: 10px 15px;
+  border: 1px solid ${palette.primary};
+  border-radius: 7px;
+`;
+
 export const DownloadButton = styled.button`
   background-color: ${palette.primary};
   color: ${palette.white};
@@ -45,5 +61,4 @@ export const DownloadButton = styled.button`
   padding: 10px 15px;
   border: none;
   border-radius: 7px;
-  width: 100%;
 `;

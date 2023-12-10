@@ -76,6 +76,37 @@ export default {
         unique_id: jamaah.uniqueId,
       },
     ]);
+
+    return { error };
+  },
+
+  updateJamaahByIDDB: async (jamaah: JamaahType, id: string) => {
+    const { data } = await sbClient
+      .from('jamaah')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (!data) {
+      const error: PostgrestError = {
+        code: '404',
+        details: '',
+        hint: '',
+        message: lang('service.err_jamaah_not_found'),
+      };
+      return { error };
+    }
+
+    const { error } = await sbClient
+      .from('jamaah')
+      .update([
+        {
+          name: jamaah.name,
+          phone_number: jamaah.phoneNumber,
+        },
+      ])
+      .eq('id', id);
+
     return { error };
   },
 };
