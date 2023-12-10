@@ -2,7 +2,6 @@ import { PostgrestError } from '@supabase/supabase-js';
 import { sbClient } from '../config';
 import { KajianType, lang } from '../constants';
 import { buildKajianResp } from './helper';
-import { todayDateString } from '../helper';
 
 export default {
   getKajianDB: async (keyword?: string) => {
@@ -10,7 +9,7 @@ export default {
       .from('kajian')
       .select('id,name')
       .ilike('name', `%${keyword}%`)
-      .order('date', { ascending: false });
+      .order('created_at', { ascending: false });
 
     const resp: KajianType[] = buildKajianResp(data);
 
@@ -28,7 +27,6 @@ export default {
       id: 0,
       name: '',
       lecturer: '',
-      date: '',
     };
 
     if (!data) {
@@ -45,7 +43,6 @@ export default {
       id: data?.id,
       name: data?.name,
       lecturer: data?.lecturer,
-      date: data?.date,
     };
 
     return { resp, error };
@@ -56,23 +53,9 @@ export default {
       {
         name: kajian.name,
         lecturer: kajian.lecturer,
-        date: kajian.date,
       },
     ]);
 
     return { error };
-  },
-
-  getKajianTodayDB: async () => {
-    const today = todayDateString();
-
-    const { data } = await sbClient
-      .from('kajian')
-      .select('*')
-      .eq('date', today);
-
-    const resp: KajianType[] = buildKajianResp(data);
-
-    return { resp };
   },
 };

@@ -17,7 +17,6 @@ const Kajian: React.FC = () => {
     id: 0,
     name: '',
     lecturer: '',
-    date: '',
   });
 
   const getKajian = useRef(
@@ -59,10 +58,6 @@ const Kajian: React.FC = () => {
     setKajian({ ...kajian, lecturer: event.target.value });
   };
 
-  const onDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setKajian({ ...kajian, date: event.target.value });
-  };
-
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -85,7 +80,7 @@ const Kajian: React.FC = () => {
   }, [keyword]);
 
   useEffect(() => {
-    kajian.name && kajian.lecturer && kajian.date && setDisabledSave(false);
+    kajian.name && kajian.lecturer && setDisabledSave(false);
   }, [kajian]);
 
   useEffect(() => {
@@ -115,7 +110,6 @@ const Kajian: React.FC = () => {
         onClose={onClose}
         onNameChange={onNameChange}
         onLecturerChange={onLecturerChange}
-        onDateChange={onDateChange}
         onSubmit={onSubmit}
       />
 

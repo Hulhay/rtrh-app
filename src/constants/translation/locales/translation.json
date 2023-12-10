@@ -30,8 +30,8 @@
         "title": "Buat Kajian Baru",
         "name": "Nama Kajian",
         "name_placeholder": "Masukkan Nama Kajian",
-        "lecturer": "Nama Pengisi",
-        "lecturer_placeholder": "Masukkan Nama Pengisi Kajian",
+        "lecturer": "Nama Pengajar",
+        "lecturer_placeholder": "Masukkan Nama Pengajar Kajian",
         "date": "Tanggal Kajian",
         "date_placeholder": "Pilih Tanggal Kajian"
       },
@@ -43,7 +43,8 @@
       "table": {
         "id": "ID",
         "name": "Nama Jamaah"
-      }
+      },
+      "format_date_note": "*) Menggunakan format MM / DD / YYYY"
     },
     "scan": {
       "choose_kajian": "Pilih Kajian",

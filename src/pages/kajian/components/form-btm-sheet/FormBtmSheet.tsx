@@ -18,7 +18,6 @@ interface FormBtmSheetProps {
   onClose: () => void;
   onNameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onLecturerChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onDateChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
@@ -45,15 +44,6 @@ const FormBtmSheet: React.FC<FormBtmSheetProps> = (props) => {
               placeholder={lang('kajian.form.lecturer_placeholder')}
               value={props.kajian.lecturer}
               onChange={props.onLecturerChange}
-            />
-          </FieldWrapper>
-          <FieldWrapper>
-            <FieldLabel>{lang('kajian.form.date')}</FieldLabel>
-            <Field
-              type="date"
-              placeholder={lang('kajian.form.date_placeholder')}
-              value={props.kajian.date}
-              onChange={props.onDateChange}
             />
           </FieldWrapper>
         </FormBody>

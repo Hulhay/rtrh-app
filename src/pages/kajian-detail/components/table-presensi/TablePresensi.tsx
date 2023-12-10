@@ -9,9 +9,11 @@ import {
   Wrapper,
 } from './TablePresensi.styles';
 import { JamaahType, lang } from '../../../../constants';
+import { Loading } from '../../../../components';
 
 interface TablePresensiProps {
   jamaahData: JamaahType[];
+  loading: boolean;
 }
 
 const TablePresensi: React.FC<TablePresensiProps> = (props) => {
@@ -23,18 +25,22 @@ const TablePresensi: React.FC<TablePresensiProps> = (props) => {
           <NameCell>{lang('presensi.table.name')}</NameCell>
         </Row>
       </Header>
-      <Body>
-        {props.jamaahData.map((jamaah, index) => {
-          return (
-            <Row key={index}>
-              <IDCell>{index + 1}</IDCell>
-              <NameCell>
-                <JamaahName>{jamaah.name}</JamaahName>
-              </NameCell>
-            </Row>
-          );
-        })}
-      </Body>
+      {props.loading ? (
+        <Loading />
+      ) : (
+        <Body>
+          {props.jamaahData.map((jamaah, index) => {
+            return (
+              <Row key={index}>
+                <IDCell>{index + 1}</IDCell>
+                <NameCell>
+                  <JamaahName>{jamaah.name}</JamaahName>
+                </NameCell>
+              </Row>
+            );
+          })}
+        </Body>
+      )}
     </Wrapper>
   );
 };

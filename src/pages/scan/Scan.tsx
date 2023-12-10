@@ -30,8 +30,8 @@ const Scan: React.FC = () => {
     time: '',
   });
 
-  const getKajianToday = async () => {
-    const { resp: kajianData } = await kajianService.getKajianTodayDB();
+  const getKajian = async () => {
+    const { resp: kajianData } = await kajianService.getKajianDB('');
     setKajianData(kajianData);
   };
 
@@ -80,7 +80,7 @@ const Scan: React.FC = () => {
   };
 
   useEffect(() => {
-    getKajianToday();
+    getKajian();
   }, []);
 
   useEffect(() => {
