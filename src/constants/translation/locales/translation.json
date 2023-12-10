@@ -1,5 +1,10 @@
 {
   "id": {
+    "nav": {
+      "kajian": "Kajian",
+      "scanner": "Scanner",
+      "jamaah": "Jamaah"
+    },
     "jamaah": {
       "header": "Jamaah",
       "search_placeholder": "Cari Jamaah",

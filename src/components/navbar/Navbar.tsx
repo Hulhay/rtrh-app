@@ -10,6 +10,7 @@ import { RiQrScanFill, RiQrScanLine } from 'react-icons/ri';
 import { Link, useLocation } from 'react-router-dom';
 import { useScroll } from '../../hooks';
 import { getMenuActive } from './Navbar.helper';
+import { lang } from '../../constants';
 
 const Navbar: React.FC = () => {
   const loc = useLocation();
@@ -34,6 +35,7 @@ const Navbar: React.FC = () => {
         ) : (
           <BsCalendarEvent className="icon" />
         )}
+        <p>{lang('nav.kajian')}</p>
       </Link>
       <Link to={'/scan'}>
         {menu === 'scan' ? (
@@ -41,6 +43,7 @@ const Navbar: React.FC = () => {
         ) : (
           <RiQrScanLine className="icon" />
         )}
+        <p>{lang('nav.scanner')}</p>
       </Link>
       <Link to={'/jamaah'}>
         {menu === 'jamaah' ? (
@@ -48,6 +51,7 @@ const Navbar: React.FC = () => {
         ) : (
           <BsPeople className="icon" />
         )}
+        <p>{lang('nav.jamaah')}</p>
       </Link>
     </Wrapper>
   );

@@ -3,7 +3,7 @@ import { palette } from '../../constants';
 
 export const Wrapper = styled.div`
   width: 100%;
-  height: 56px;
+  height: 60px;
   position: fixed;
   bottom: 0;
   display: flex;
@@ -20,7 +20,16 @@ export const Wrapper = styled.div`
 
   .icon {
     width: 20px;
-    height: 56px;
+    height: 20px;
+    color: ${palette.primary};
+  }
+
+  a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    font-size: 12px;
     color: ${palette.primary};
   }
 `;
