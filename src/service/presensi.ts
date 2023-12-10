@@ -1,6 +1,7 @@
 import { PostgrestError } from '@supabase/supabase-js';
 import { sbClient } from '../config';
 import { JamaahType, PresensiType, lang } from '../constants';
+import { endOfDay, startOfDay } from '../helper';
 
 export default {
   insertPresensiDB: async (req: PresensiType) => {
@@ -27,11 +28,16 @@ export default {
     return { error };
   },
 
-  getPresensiByKajianIDDB: async (id: string) => {
+  getPresensiByKajianIDandDateDB: async (id: string, date: string) => {
+    const sod = startOfDay(date);
+    const eod = endOfDay(date);
+
     const { data } = await sbClient
       .from('presensi')
       .select('*,jamaah (id, name)')
-      .eq('kajian_id', id);
+      .eq('kajian_id', id)
+      .gt('created_at', sod)
+      .lt('created_at', eod);
 
     const resp: JamaahType[] =
       data?.map((d) => {

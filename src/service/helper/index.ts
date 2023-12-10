@@ -19,7 +19,6 @@ export const buildKajianResp = (data: any[] | null): KajianType[] => {
         id: d.id,
         name: d.name,
         lecturer: d.lecturer,
-        date: d.date,
       };
     }) || []
   );

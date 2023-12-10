@@ -27,3 +27,11 @@ export const formatDateString = (date = '', defaultFormat = 'YYYY-MM-DD') => {
 export const todayDateString = () => {
   return moment().startOf('day').format('YYYY-MM-DD');
 };
+
+export const startOfDay = (date: string): string => {
+  return moment(date).startOf('day').toISOString();
+};
+
+export const endOfDay = (date: string): string => {
+  return moment(date).endOf('day').toISOString();
+};
