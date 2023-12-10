@@ -13,12 +13,16 @@ import { MsgBtmSheet } from '../../components';
 import { parsingQr, validateQrString } from '../../helper';
 import { kajianService, presensiService } from '../../service';
 import { KajianType, PresensiType, lang } from '../../constants';
-import { SuccessBtmSheet } from './components';
+import { CameraBtmSheet, SuccessBtmSheet } from './components';
+import { isRememberChooseKajian } from '../../config';
 
 const Scan: React.FC = () => {
   const navigate = useNavigate();
 
   const [qrCode, setQrCode] = useState<string>('');
+  const [isCameraBtmSheet, setIsCameraBtmSheet] = useState<boolean>(
+    !isRememberChooseKajian(),
+  );
   const [isSuccessBtmSheet, setIsSuccessBtmSheet] = useState<boolean>(false);
   const [isMsgBtmSheet, setIsMsgBtmSheet] = useState<boolean>(false);
   const [kajianData, setKajianData] = useState<KajianType[]>([]);
@@ -73,6 +77,10 @@ const Scan: React.FC = () => {
     setQrCode(qrCode);
   };
 
+  const onCloseCameraBtmSheet = () => {
+    setIsCameraBtmSheet(false);
+  };
+
   const onClose = () => {
     setIsSuccessBtmSheet(false);
     setIsMsgBtmSheet(false);
@@ -114,6 +122,11 @@ const Scan: React.FC = () => {
           </Select>
         </SelectWrapper>
       </Wrapper>
+
+      <CameraBtmSheet
+        isCameraBtmSheet={isCameraBtmSheet}
+        onClose={onCloseCameraBtmSheet}
+      />
 
       <SuccessBtmSheet
         isSuccessBtmSheet={isSuccessBtmSheet}

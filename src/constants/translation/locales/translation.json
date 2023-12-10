@@ -48,7 +48,10 @@
     },
     "scan": {
       "choose_kajian": "Pilih Kajian",
-      "unknown_qr": "QR Tidak Dikenal. Coba Lagi."
+      "choose_kajian_camera": "Pilih Kajian untuk Membuka Kamera",
+      "welcome": "Ahlan Wa Sahlan",
+      "unknown_qr": "QR Tidak Dikenal. Coba Lagi.",
+      "dont_show_this": "Jangan tampilkan ini lagi"
     },
     "qr": {
       "rtrh": "Rumah Tahfizh Raudhatul Huffadz",
@@ -62,7 +65,8 @@
       "save": "Simpan",
       "download_qr": "Download QR Code",
       "close": "Tutup",
-      "edit": "Ubah Data"
+      "edit": "Ubah Data",
+      "understand": "Mengerti"
     },
     "service": {
       "err_jamaah_not_found": "Jamaah Tidak Ditemukan",

@@ -7,7 +7,7 @@ import {
   JamaahWrapper,
   MsgWrapper,
 } from './SuccessBtmSheet.styles';
-import { PresensiType } from '../../../../constants';
+import { PresensiType, lang } from '../../../../constants';
 
 interface SuccessBtmSheetProps {
   isSuccessBtmSheet: boolean;
@@ -20,13 +20,13 @@ const SuccessBtmSheet: React.FC<SuccessBtmSheetProps> = (props) => {
     <BottomSheet active={props.isSuccessBtmSheet} onClose={props.onClose}>
       <MsgWrapper className={props.isSuccessBtmSheet ? 'active' : ''}>
         <IoIosCheckmarkCircle className="icon" />
-        <Description>Ahlan Wa Sahlan</Description>
+        <Description>{lang('scan.welcome')}</Description>
         <JamaahWrapper>
           <p>{props.presensi.name}</p>
           <p>{props.presensi.phoneNumber}</p>
           <p>{props.presensi.time}</p>
         </JamaahWrapper>
-        <CloseBtn onClick={props.onClose}>Tutup</CloseBtn>
+        <CloseBtn onClick={props.onClose}>{lang('button.close')}</CloseBtn>
       </MsgWrapper>
     </BottomSheet>
   );
