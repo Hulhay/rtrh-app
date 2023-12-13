@@ -5,6 +5,11 @@
       "scanner": "Scanner",
       "jamaah": "Jamaah"
     },
+    "login": {
+      "email": "Email",
+      "password": "Kata Sandi",
+      "invalid_credential": "Email atau Kata Sandi Salah. Coba Lagi"
+    },
     "jamaah": {
       "header": "Jamaah",
       "search_placeholder": "Cari Jamaah",
@@ -71,7 +76,8 @@
       "download_qr": "Download QR Code",
       "close": "Tutup",
       "edit": "Ubah Data",
-      "understand": "Mengerti"
+      "understand": "Mengerti",
+      "login": "Masuk"
     },
     "service": {
       "err_jamaah_not_found": "Jamaah Tidak Ditemukan",

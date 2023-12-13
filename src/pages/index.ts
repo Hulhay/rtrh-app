@@ -5,4 +5,6 @@ export { CreateJamaahSuccess } from './create-jamaah-success';
 export { Kajian } from './kajian';
 export { KajianDetail } from './kajian-detail';
 
+export { Login } from './login';
+
 export { NotFound } from './not-found';
