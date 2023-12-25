@@ -34,13 +34,24 @@ export const Title = styled.p`
   font-size: 20px;
 `;
 
-export const CloseBtn = styled.button`
+export const Action = styled.div`
+  width: 100%;
+  display: flex;
+  gap: 10px;
+`;
+
+export const ActionBtn = styled.button`
   width: 100%;
   margin-top: 50px;
   padding: 10px 15px;
   border-radius: 7px;
-  border: none;
-  background-color: ${palette.primary};
-  color: ${palette.white};
+  border: 1px solid ${palette.primary};
+  background-color: ${palette.white};
+  color: ${palette.primary};
   font-size: 16px;
+
+  &.primary {
+    background-color: ${palette.primary};
+    color: ${palette.white};
+  }
 `;

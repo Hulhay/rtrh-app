@@ -24,6 +24,13 @@ export const Wrapper = styled.div`
     color: ${palette.primary};
   }
 
+  .icon-active {
+    width: 20px;
+    height: 20px;
+    stroke-width: 1px;
+    color: ${palette.primary};
+  }
+
   a {
     display: flex;
     flex-direction: column;

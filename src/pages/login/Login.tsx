@@ -43,7 +43,6 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     if (response) {
-      console.log('here');
       navigate('/');
     }
   }, [response]);

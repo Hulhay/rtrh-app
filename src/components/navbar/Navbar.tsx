@@ -6,6 +6,7 @@ import {
   BsPeople,
   BsPeopleFill,
 } from 'react-icons/bs';
+import { RxHamburgerMenu } from 'react-icons/rx';
 import { RiQrScanFill, RiQrScanLine } from 'react-icons/ri';
 import { Link, useLocation } from 'react-router-dom';
 import { useScroll } from '../../hooks';
@@ -52,6 +53,14 @@ const Navbar: React.FC = () => {
           <BsPeople className="icon" />
         )}
         <p>{lang('nav.jamaah')}</p>
+      </Link>
+      <Link to={'/menu'}>
+        {menu === 'menu' ? (
+          <RxHamburgerMenu className="icon-active" />
+        ) : (
+          <RxHamburgerMenu className="icon" />
+        )}
+        <p>{lang('nav.menu')}</p>
       </Link>
     </Wrapper>
   );

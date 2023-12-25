@@ -14,6 +14,13 @@ export const setRhStorage = (key: string, value: any) => {
   return;
 };
 
+export const removeRhStorage = (key: string) => {
+  const rtGroup = getStorage();
+  rtGroup[key] = undefined;
+  localStorage.setItem('rtrh', JSON.stringify(rtGroup));
+  return;
+};
+
 export const getCookie = (cookieName: string): string | null => {
   const cookies = document.cookie.split('; ');
 
@@ -28,4 +35,8 @@ export const getCookie = (cookieName: string): string | null => {
   }
 
   return null;
+};
+
+export const removeCookie = (cookieName: string) => {
+  document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
 };
