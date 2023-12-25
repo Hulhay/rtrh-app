@@ -1,9 +1,6 @@
 import { getRhStorage } from '../helper';
-
-export const keyStorage = {
-  rememberChooseKajian: 'rememberChooseKajian',
-};
+import { storageKey } from './key';
 
 export const isRememberChooseKajian = (): boolean => {
-  return getRhStorage(keyStorage.rememberChooseKajian) || false;
+  return getRhStorage(storageKey.REMEMBER_CHOOSE_KAJIAN) || false;
 };

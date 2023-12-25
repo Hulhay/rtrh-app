@@ -1,16 +1,21 @@
 import React from 'react';
 import { BottomSheet } from '..';
-import { CloseBtn, Title, Wrapper } from './MsgBtmSheet.styles';
+import { Action, ActionBtn, Title, Wrapper } from './MsgBtmSheet.styles';
 import {
   AiFillCloseCircle,
   AiFillInfoCircle,
   AiFillQuestionCircle,
   AiFillWarning,
 } from 'react-icons/ai';
+import { lang } from '../../constants';
 
 interface MsgBtmSheetProps {
   isMsgBtmSheet: boolean;
   onClose: () => void;
+  onCloseLabel?: string;
+  onConfirm?: () => void;
+  onConfirmLabel?: string;
+  primary?: 'confirm' | 'close';
   type: 'warning' | 'error' | 'question' | 'info';
   title: string;
   subtitle?: string;
@@ -31,7 +36,26 @@ const MsgBtmSheet: React.FC<MsgBtmSheetProps> = (props) => {
         )}
         <Title>{props.title}</Title>
         {props.subtitle && <p>{props.subtitle}</p>}
-        <CloseBtn onClick={props.onClose}>Tutup</CloseBtn>
+        {props.onConfirm ? (
+          <Action>
+            <ActionBtn
+              onClick={props.onClose}
+              className={props.primary !== 'confirm' ? 'primary' : ''}
+            >
+              {props.onCloseLabel || lang('button.close')}
+            </ActionBtn>
+            <ActionBtn
+              onClick={props.onConfirm}
+              className={props.primary === 'confirm' ? 'primary' : ''}
+            >
+              {props.onConfirmLabel || lang('button.yes')}
+            </ActionBtn>
+          </Action>
+        ) : (
+          <ActionBtn onClick={props.onClose}>
+            {props.onCloseLabel || lang('button.close')}
+          </ActionBtn>
+        )}
       </Wrapper>
     </BottomSheet>
   );

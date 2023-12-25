@@ -3,7 +3,13 @@
     "nav": {
       "kajian": "Kajian",
       "scanner": "Scanner",
-      "jamaah": "Jamaah"
+      "jamaah": "Jamaah",
+      "menu": "Menu"
+    },
+    "login": {
+      "email": "Email",
+      "password": "Kata Sandi",
+      "invalid_credential": "Email atau Kata Sandi Salah. Coba Lagi"
     },
     "jamaah": {
       "header": "Jamaah",
@@ -58,6 +64,11 @@
       "unknown_qr": "QR Tidak Dikenal. Coba Lagi.",
       "dont_show_this": "Jangan tampilkan ini lagi"
     },
+    "menu": {
+      "title": "Menu",
+      "logout": "Keluar",
+      "confirm_logout": "Yakin mau keluar?"
+    },
     "qr": {
       "rtrh": "Rumah Tahfizh Raudhatul Huffadz",
       "address": "Nitikan Kota Yogyakarta"
@@ -71,7 +82,11 @@
       "download_qr": "Download QR Code",
       "close": "Tutup",
       "edit": "Ubah Data",
-      "understand": "Mengerti"
+      "understand": "Mengerti",
+      "login": "Masuk",
+      "yes": "Ya",
+      "cancel": "Batal",
+      "yes_logout": "Ya, Keluar"
     },
     "service": {
       "err_jamaah_not_found": "Jamaah Tidak Ditemukan",

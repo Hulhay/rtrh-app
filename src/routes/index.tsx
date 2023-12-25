@@ -5,14 +5,18 @@ import {
   JamaahDetail,
   Kajian,
   KajianDetail,
+  Login,
+  Menu,
   NotFound,
   Scan,
 } from '../pages';
 import { BaseLayout } from './layout';
+import { loader } from '../helper';
 
 const Routes = createBrowserRouter([
   {
     path: '/',
+    loader: loader,
     element: <BaseLayout />,
     errorElement: <NotFound />,
     children: [
@@ -21,7 +25,7 @@ const Routes = createBrowserRouter([
         element: <Kajian />,
       },
       {
-        path: '/kajian/:id',
+        path: 'kajian/:id',
         element: <KajianDetail />,
       },
       {
@@ -32,18 +36,30 @@ const Routes = createBrowserRouter([
   },
   {
     path: 'scan',
+    loader: loader,
     element: <Scan />,
   },
   {
-    path: '/jamaah/new',
+    path: 'jamaah/new',
+    loader: loader,
     element: <CreateJamaahSuccess />,
   },
   {
-    path: '/jamaah/:id',
+    path: 'jamaah/:id',
+    loader: loader,
     element: <JamaahDetail />,
   },
   {
-    path: '/not-found',
+    path: 'menu',
+    loader: loader,
+    element: <Menu />,
+  },
+  {
+    path: 'login',
+    element: <Login />,
+  },
+  {
+    path: 'not-found',
     element: <NotFound />,
   },
 ]);

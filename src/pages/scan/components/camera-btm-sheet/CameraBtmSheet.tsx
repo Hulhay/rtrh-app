@@ -8,7 +8,7 @@ import {
   MsgWrapper,
 } from './CameraBtmSheet.styles';
 import { lang } from '../../../../constants';
-import { isRememberChooseKajian, keyStorage } from '../../../../config';
+import { isRememberChooseKajian, storageKey } from '../../../../config';
 import { setRhStorage } from '../../../../helper';
 
 interface CameraBtmSheetProps {
@@ -21,7 +21,7 @@ const CameraBtmSheet: React.FC<CameraBtmSheetProps> = (props) => {
 
   const onChange = () => {
     setChecked(!checked);
-    setRhStorage(keyStorage.rememberChooseKajian, !checked);
+    setRhStorage(storageKey.REMEMBER_CHOOSE_KAJIAN, !checked);
   };
 
   return (
