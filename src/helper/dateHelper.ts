@@ -35,3 +35,7 @@ export const startOfDay = (date: string): string => {
 export const endOfDay = (date: string): string => {
   return moment(date).endOf('day').toISOString();
 };
+
+export const epochToDate = (epochTime: number): Date => {
+  return new Date(epochTime * 1000);
+};

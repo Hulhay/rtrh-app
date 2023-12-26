@@ -7,5 +7,7 @@ export const getMenuActive = (loc: Location<any>) => {
       ? 'scan'
       : loc.pathname === '/jamaah'
         ? 'jamaah'
-        : '';
+        : loc.pathname === '/menu'
+          ? 'menu'
+          : '';
 };
