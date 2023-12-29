@@ -46,3 +46,9 @@ export const LoginBtn = styled.button`
     opacity: 0.5;
   }
 `;
+
+export const VersionApp = styled.div`
+  color: ${palette.white};
+  position: fixed;
+  bottom: 20px;
+`;
