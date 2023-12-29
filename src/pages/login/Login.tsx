@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import pesmarh from '../../assets/pesmarh.png';
 import { LoginType, lang } from '../../constants';
-import { FieldWrapper, Form, Input, LoginBtn, Wrapper } from './Login.styles';
+import {
+  FieldWrapper,
+  Form,
+  Input,
+  LoginBtn,
+  VersionApp,
+  Wrapper,
+} from './Login.styles';
 import { authService } from '../../service';
 import { MsgBtmSheet } from '../../components';
 import { useNavigate } from 'react-router-dom';
+import packageJSON from '../../../package.json';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -72,6 +80,7 @@ const Login: React.FC = () => {
             {lang('button.login')}
           </LoginBtn>
         </Form>
+        <VersionApp>{`version ${packageJSON.version}`}</VersionApp>
       </Wrapper>
 
       <MsgBtmSheet
