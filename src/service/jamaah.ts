@@ -54,19 +54,21 @@ export default {
   },
 
   insertJamaahDB: async (jamaah: JamaahType) => {
-    const { data: jamaahExists } = await sbClient
-      .from('jamaah')
-      .select('id')
-      .eq('phone_number', jamaah.phoneNumber);
+    if (jamaah.phoneNumber !== '0') {
+      const { data: jamaahExists } = await sbClient
+        .from('jamaah')
+        .select('id')
+        .eq('phone_number', jamaah.phoneNumber);
 
-    if (jamaahExists?.[0]?.id) {
-      const error: PostgrestError = {
-        code: '409',
-        message: lang('service.err_wa_exists'),
-        details: '',
-        hint: '',
-      };
-      return { error };
+      if (jamaahExists?.[0]?.id) {
+        const error: PostgrestError = {
+          code: '409',
+          message: lang('service.err_wa_exists'),
+          details: '',
+          hint: '',
+        };
+        return { error };
+      }
     }
 
     const { error } = await sbClient.from('jamaah').insert([
