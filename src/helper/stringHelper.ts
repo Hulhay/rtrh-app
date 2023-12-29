@@ -23,8 +23,8 @@ export const buildQRStringFromResponse = (jamaah: any) => {
 };
 
 export const validateQrString = (qrString: string): boolean => {
-  const validQrPattern = /RTRH\/[a-zA-Z0-9%]+\/\d+\/\S+/;
-  return validQrPattern.test(qrString);
+  const isRTRH = qrString.split('/')[0];
+  return isRTRH === 'RTRH' || isRTRH === 'rtrh';
 };
 
 export const parsingQr = (qrString: string) => {
