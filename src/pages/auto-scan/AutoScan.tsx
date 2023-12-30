@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   // Option,
   // ScannerWrapper,
@@ -47,7 +47,7 @@ const AutoScan: React.FC = () => {
   // );
   const navigate = useNavigate();
 
-  const [qrCode, setQrCode] = useState<string>('');
+  // const [qrCode, setQrCode] = useState<string>('');
   // const [isCameraBtmSheet, setIsCameraBtmSheet] = useState<boolean>(
   //   !isRememberChooseKajian(),
   // );
@@ -75,7 +75,7 @@ const AutoScan: React.FC = () => {
     }
   };
 
-  const scanQr = async () => {
+  const scanQr = async (qrCode: string) => {
     if (qrCode !== '') {
       // if (!validateQrString(qrCode)) {
       //   setIsMsgBtmSheet(true);
@@ -95,10 +95,10 @@ const AutoScan: React.FC = () => {
       await insertPresensi(updatedPresensi);
       // setIsSuccessBtmSheet(true);
 
-      setTimeout(() => {
-        // setIsSuccessBtmSheet(false);
-        setPresensi({ ...presensi, kajianId: presensi.kajianId });
-      }, 2000);
+      // setTimeout(() => {
+      //   // setIsSuccessBtmSheet(false);
+      //   setPresensi({ ...presensi, kajianId: presensi.kajianId });
+      // }, 2000);
     }
   };
 
@@ -107,7 +107,8 @@ const AutoScan: React.FC = () => {
   // };
 
   const onQrCode = (qrCode: string) => {
-    setQrCode(qrCode);
+    // setQrCode(qrCode);
+    scanQr(qrCode);
   };
 
   // const onCloseCameraBtmSheet = () => {
@@ -124,9 +125,9 @@ const AutoScan: React.FC = () => {
   //   getKajian();
   // }, []);
 
-  useEffect(() => {
-    scanQr();
-  }, [qrCode]);
+  // useEffect(() => {
+  //   scanQr();
+  // }, [qrCode]);
 
   return (
     <React.Fragment>
