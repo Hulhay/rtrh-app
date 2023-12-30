@@ -19,7 +19,7 @@ import ContinuousQrScanner from 'react-webcam-qr-scanner.ts';
 // import { isRememberChooseKajian } from '../../config';
 
 const AutoScan: React.FC = () => {
-  // const [qrCode, setQrCode] = useState('');
+  const [qrCode, setQrCode] = useState('');
   // const [shouldScan, setShouldScan] = useState(false);
 
   // function startScanner() {
@@ -29,25 +29,25 @@ const AutoScan: React.FC = () => {
   //   setShouldScan(false);
   // }
 
-  // return (
-  //   <>
-  //     <p>
-  //       QR Code: <code>{qrCode}</code>
-  //     </p>
-  //     {!shouldScan ? (
-  //       <button onClick={startScanner}>Scan QR Code</button>
-  //     ) : (
-  //       <>
-  //         <button onClick={stopScanner}>Stop Scanning</button>
-  //         {/* onQrCode can be fired multiple times */}
-  //         <ContinuousQrScanner onQrCode={setQrCode} />
-  //       </>
-  //     )}
-  //   </>
-  // );
+  return (
+    <>
+      <p>
+        QR Code: <code>{qrCode}</code>
+      </p>
+      {/* {!shouldScan ? (
+        <button onClick={startScanner}>Scan QR Code</button>
+      ) : (
+        <>
+          <button onClick={stopScanner}>Stop Scanning</button> */}
+      {/* onQrCode can be fired multiple times */}
+      <ContinuousQrScanner onQrCode={setQrCode} />
+      {/* </>
+      )} */}
+    </>
+  );
   // const navigate = useNavigate();
 
-  const [qrCode, setQrCode] = useState<string>('');
+  // const [qrCode, setQrCode] = useState<string>('');
   // const [isCameraBtmSheet, setIsCameraBtmSheet] = useState<boolean>(
   //   !isRememberChooseKajian(),
   // );
@@ -106,10 +106,10 @@ const AutoScan: React.FC = () => {
   //   setPresensi({ ...presensi, kajianId: parseInt(event.target.value) });
   // };
 
-  const onQrCode = (qrCode: string) => {
-    setQrCode(qrCode);
-    // scanQr(qrCode);
-  };
+  // const onQrCode = (qrCode: string) => {
+  //   setQrCode(qrCode);
+  // scanQr(qrCode);
+  // };
 
   // const onCloseCameraBtmSheet = () => {
   //   setIsCameraBtmSheet(false);
@@ -129,20 +129,31 @@ const AutoScan: React.FC = () => {
   //   scanQr();
   // }, [qrCode]);
 
-  return (
-    <React.Fragment>
-      <div>
-        {/* <GoXCircleFill className="back" onClick={() => navigate('/')} /> */}
-        {/* <ScannerWrapper> */}
-        {/* {presensi.kajianId > 0 && ( */}
-        <ContinuousQrScanner
-          onQrCode={onQrCode}
-          // style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-        />
-        {/* )} */}
-        {/* </ScannerWrapper> */}
-        <pre>{JSON.stringify(qrCode)}</pre>
-        {/* <SelectWrapper>
+  // return (
+  // <React.Fragment>
+  // <div>
+  {
+    /* <GoXCircleFill className="back" onClick={() => navigate('/')} /> */
+  }
+  {
+    /* <ScannerWrapper> */
+  }
+  {
+    /* {presensi.kajianId > 0 && ( */
+  }
+  // <ContinuousQrScanner
+  // onQrCode={onQrCode}
+  // style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+  // />
+  {
+    /* )} */
+  }
+  {
+    /* </ScannerWrapper> */
+  }
+  // <pre>{JSON.stringify(qrCode)}</pre>
+  {
+    /* <SelectWrapper>
           <Select defaultValue="placeholder" onChange={onChange}>
             <Option value="placeholder" disabled>
               {lang('scan.choose_kajian')}
@@ -155,28 +166,35 @@ const AutoScan: React.FC = () => {
               );
             })}
           </Select>
-        </SelectWrapper> */}
-      </div>
+        </SelectWrapper> */
+  }
+  // </div>
 
-      {/* <CameraBtmSheet
+  {
+    /* <CameraBtmSheet
         isCameraBtmSheet={isCameraBtmSheet}
         onClose={onCloseCameraBtmSheet}
-      /> */}
+      /> */
+  }
 
-      {/* <SuccessBtmSheet
+  {
+    /* <SuccessBtmSheet
         isSuccessBtmSheet={isSuccessBtmSheet}
         onClose={onClose}
         presensi={presensi}
-      /> */}
+      /> */
+  }
 
-      {/* <MsgBtmSheet
+  {
+    /* <MsgBtmSheet
         isMsgBtmSheet={isMsgBtmSheet}
         type="question"
         title={lang('scan.unknown_qr')}
         onClose={onClose}
-      /> */}
-    </React.Fragment>
-  );
+      /> */
+  }
+  // </React.Fragment>
+  // );
 };
 
 export default AutoScan;
