@@ -10,9 +10,9 @@ import { GoXCircleFill } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
 import ContinuousQrScanner from 'react-webcam-qr-scanner.ts';
 // import { MsgBtmSheet } from '../../components';
-import { parsingQr } from '../../helper';
-import { PresensiType } from '../../constants';
-import { presensiService } from '../../service';
+// import { parsingQr } from '../../helper';
+// import { PresensiType } from '../../constants';
+// import { presensiService } from '../../service';
 // import { kajianService, presensiService } from '../../service';
 // import { KajianType, PresensiType, lang } from '../../constants';
 // import { CameraBtmSheet, SuccessBtmSheet } from './components';
@@ -47,68 +47,68 @@ const AutoScan: React.FC = () => {
   // );
   const navigate = useNavigate();
 
-  // const [qrCode, setQrCode] = useState<string>('');
+  const [qrCode, setQrCode] = useState<string>('');
   // const [isCameraBtmSheet, setIsCameraBtmSheet] = useState<boolean>(
   //   !isRememberChooseKajian(),
   // );
   // const [isSuccessBtmSheet, setIsSuccessBtmSheet] = useState<boolean>(false);
   // const [isMsgBtmSheet, setIsMsgBtmSheet] = useState<boolean>(false);
   // const [kajianData, setKajianData] = useState<KajianType[]>([]);
-  const [presensi, setPresensi] = useState<PresensiType>({
-    kajianId: 6,
-    name: '',
-    phoneNumber: '',
-    uniqueId: '',
-    time: '',
-  });
+  // const [presensi, setPresensi] = useState<PresensiType>({
+  //   kajianId: 6,
+  //   name: '',
+  //   phoneNumber: '',
+  //   uniqueId: '',
+  //   time: '',
+  // });
 
   // const getKajian = async () => {
   //   const { resp: kajianData } = await kajianService.getKajianDB('');
   //   setKajianData(kajianData);
   // };
 
-  const insertPresensi = async (presensi: PresensiType) => {
-    try {
-      await presensiService.insertPresensiDB(presensi);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const insertPresensi = async (presensi: PresensiType) => {
+  //   try {
+  //     await presensiService.insertPresensiDB(presensi);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
-  const scanQr = async (qrCode: string) => {
-    if (qrCode !== '') {
-      // if (!validateQrString(qrCode)) {
-      //   setIsMsgBtmSheet(true);
-      //   return;
-      // }
+  // const scanQr = async (qrCode: string) => {
+  //   if (qrCode !== '') {
+  //     // if (!validateQrString(qrCode)) {
+  //     //   setIsMsgBtmSheet(true);
+  //     //   return;
+  //     // }
 
-      const { name, phoneNumber, uniqueId, time } = parsingQr(qrCode);
-      const updatedPresensi = {
-        ...presensi,
-        name,
-        phoneNumber,
-        uniqueId,
-        time,
-      };
+  //     const { name, phoneNumber, uniqueId, time } = parsingQr(qrCode);
+  //     const updatedPresensi = {
+  //       ...presensi,
+  //       name,
+  //       phoneNumber,
+  //       uniqueId,
+  //       time,
+  //     };
 
-      setPresensi(updatedPresensi);
-      await insertPresensi(updatedPresensi);
-      // setIsSuccessBtmSheet(true);
+  //     setPresensi(updatedPresensi);
+  //     await insertPresensi(updatedPresensi);
+  //     // setIsSuccessBtmSheet(true);
 
-      // setTimeout(() => {
-      //   // setIsSuccessBtmSheet(false);
-      //   setPresensi({ ...presensi, kajianId: presensi.kajianId });
-      // }, 2000);
-    }
-  };
+  //     // setTimeout(() => {
+  //     //   // setIsSuccessBtmSheet(false);
+  //     //   setPresensi({ ...presensi, kajianId: presensi.kajianId });
+  //     // }, 2000);
+  //   }
+  // };
 
   // const onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
   //   setPresensi({ ...presensi, kajianId: parseInt(event.target.value) });
   // };
 
   const onQrCode = (qrCode: string) => {
-    // setQrCode(qrCode);
-    scanQr(qrCode);
+    setQrCode(qrCode);
+    // scanQr(qrCode);
   };
 
   // const onCloseCameraBtmSheet = () => {
@@ -141,7 +141,7 @@ const AutoScan: React.FC = () => {
         />
         {/* )} */}
         {/* </ScannerWrapper> */}
-        <pre>{JSON.stringify(presensi)}</pre>
+        <pre>{JSON.stringify(qrCode)}</pre>
         {/* <SelectWrapper>
           <Select defaultValue="placeholder" onChange={onChange}>
             <Option value="placeholder" disabled>
