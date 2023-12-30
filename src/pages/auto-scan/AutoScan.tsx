@@ -20,29 +20,29 @@ import ContinuousQrScanner from 'react-webcam-qr-scanner.ts';
 
 const AutoScan: React.FC = () => {
   const [qrCode, setQrCode] = useState('');
-  // const [shouldScan, setShouldScan] = useState(false);
+  const [shouldScan, setShouldScan] = useState(false);
 
-  // function startScanner() {
-  //   setShouldScan(true);
-  // }
-  // function stopScanner() {
-  //   setShouldScan(false);
-  // }
+  function startScanner() {
+    setShouldScan(true);
+  }
+  function stopScanner() {
+    setShouldScan(false);
+  }
 
   return (
     <>
       <p>
         QR Code: <code>{qrCode}</code>
       </p>
-      {/* {!shouldScan ? (
+      {!shouldScan ? (
         <button onClick={startScanner}>Scan QR Code</button>
       ) : (
         <>
-          <button onClick={stopScanner}>Stop Scanning</button> */}
-      {/* onQrCode can be fired multiple times */}
-      <ContinuousQrScanner onQrCode={setQrCode} />
-      {/* </>
-      )} */}
+          <button onClick={stopScanner}>Stop Scanning</button>
+          {/* onQrCode can be fired multiple times */}
+          <ContinuousQrScanner onQrCode={setQrCode} />
+        </>
+      )}
     </>
   );
   // const navigate = useNavigate();
