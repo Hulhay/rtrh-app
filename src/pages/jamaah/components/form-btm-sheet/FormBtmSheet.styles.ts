@@ -40,6 +40,10 @@ export const FormBody = styled.div`
 export const FieldWrapper = styled.div`
   width: 100%;
   position: relative;
+
+  .note {
+    font-size: 10px;
+  }
 `;
 
 export const FieldLabel = styled.label`

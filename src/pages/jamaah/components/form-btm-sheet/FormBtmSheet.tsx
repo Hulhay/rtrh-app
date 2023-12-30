@@ -48,6 +48,7 @@ const FormBtmSheet: React.FC<FormBtmSheetProps> = (props) => {
               value={props.jamaah.phoneNumber}
               onChange={props.onPhoneChange}
             />
+            <p className="note">{lang('jamaah.form.phone_note')}</p>
           </FieldWrapper>
         </FormBody>
         <SaveBtn
