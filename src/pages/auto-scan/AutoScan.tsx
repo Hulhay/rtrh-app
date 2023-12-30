@@ -130,14 +130,14 @@ const AutoScan: React.FC = () => {
     <React.Fragment>
       <Wrapper>
         <GoXCircleFill className="back" onClick={() => navigate('/')} />
-        <ScannerWrapper>
-          {presensi.kajianId > 0 && (
-            <ContinuousQrScanner
-              onQrCode={onQrCode}
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
-          )}
-        </ScannerWrapper>
+        {/* <ScannerWrapper> */}
+        {presensi.kajianId > 0 && (
+          <ContinuousQrScanner
+            onQrCode={onQrCode}
+            // style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+        )}
+        {/* </ScannerWrapper> */}
         <pre>{JSON.stringify(presensi)}</pre>
         <SelectWrapper>
           <Select defaultValue="placeholder" onChange={onChange}>
