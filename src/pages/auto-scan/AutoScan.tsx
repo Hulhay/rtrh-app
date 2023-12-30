@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import {
-  // Option,
-  // ScannerWrapper,
-  // Select,
-  // SelectWrapper,
-  Wrapper,
-} from './AutoScan.styles';
-import { GoXCircleFill } from 'react-icons/go';
-import { useNavigate } from 'react-router-dom';
+// import {
+// Option,
+// ScannerWrapper,
+// Select,
+// SelectWrapper,
+// Wrapper,
+// } from './AutoScan.styles';
+// import { GoXCircleFill } from 'react-icons/go';
+// import { useNavigate } from 'react-router-dom';
 import ContinuousQrScanner from 'react-webcam-qr-scanner.ts';
 // import { MsgBtmSheet } from '../../components';
 // import { parsingQr } from '../../helper';
@@ -45,7 +45,7 @@ const AutoScan: React.FC = () => {
   //     )}
   //   </>
   // );
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const [qrCode, setQrCode] = useState<string>('');
   // const [isCameraBtmSheet, setIsCameraBtmSheet] = useState<boolean>(
@@ -131,8 +131,8 @@ const AutoScan: React.FC = () => {
 
   return (
     <React.Fragment>
-      <Wrapper>
-        <GoXCircleFill className="back" onClick={() => navigate('/')} />
+      <div>
+        {/* <GoXCircleFill className="back" onClick={() => navigate('/')} /> */}
         {/* <ScannerWrapper> */}
         {/* {presensi.kajianId > 0 && ( */}
         <ContinuousQrScanner
@@ -156,7 +156,7 @@ const AutoScan: React.FC = () => {
             })}
           </Select>
         </SelectWrapper> */}
-      </Wrapper>
+      </div>
 
       {/* <CameraBtmSheet
         isCameraBtmSheet={isCameraBtmSheet}
