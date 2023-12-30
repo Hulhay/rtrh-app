@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Option,
+  // Option,
   // ScannerWrapper,
-  Select,
-  SelectWrapper,
+  // Select,
+  // SelectWrapper,
   Wrapper,
 } from './AutoScan.styles';
 import { GoXCircleFill } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
 import ContinuousQrScanner from 'react-webcam-qr-scanner.ts';
-import { MsgBtmSheet } from '../../components';
-import { parsingQr, validateQrString } from '../../helper';
-import { kajianService, presensiService } from '../../service';
-import { KajianType, PresensiType, lang } from '../../constants';
-import { CameraBtmSheet, SuccessBtmSheet } from './components';
-import { isRememberChooseKajian } from '../../config';
+// import { MsgBtmSheet } from '../../components';
+import { parsingQr } from '../../helper';
+import { PresensiType } from '../../constants';
+import { presensiService } from '../../service';
+// import { kajianService, presensiService } from '../../service';
+// import { KajianType, PresensiType, lang } from '../../constants';
+// import { CameraBtmSheet, SuccessBtmSheet } from './components';
+// import { isRememberChooseKajian } from '../../config';
 
 const AutoScan: React.FC = () => {
   // const [qrCode, setQrCode] = useState('');
@@ -46,24 +48,24 @@ const AutoScan: React.FC = () => {
   const navigate = useNavigate();
 
   const [qrCode, setQrCode] = useState<string>('');
-  const [isCameraBtmSheet, setIsCameraBtmSheet] = useState<boolean>(
-    !isRememberChooseKajian(),
-  );
-  const [isSuccessBtmSheet, setIsSuccessBtmSheet] = useState<boolean>(false);
-  const [isMsgBtmSheet, setIsMsgBtmSheet] = useState<boolean>(false);
-  const [kajianData, setKajianData] = useState<KajianType[]>([]);
+  // const [isCameraBtmSheet, setIsCameraBtmSheet] = useState<boolean>(
+  //   !isRememberChooseKajian(),
+  // );
+  // const [isSuccessBtmSheet, setIsSuccessBtmSheet] = useState<boolean>(false);
+  // const [isMsgBtmSheet, setIsMsgBtmSheet] = useState<boolean>(false);
+  // const [kajianData, setKajianData] = useState<KajianType[]>([]);
   const [presensi, setPresensi] = useState<PresensiType>({
-    kajianId: 0,
+    kajianId: 6,
     name: '',
     phoneNumber: '',
     uniqueId: '',
     time: '',
   });
 
-  const getKajian = async () => {
-    const { resp: kajianData } = await kajianService.getKajianDB('');
-    setKajianData(kajianData);
-  };
+  // const getKajian = async () => {
+  //   const { resp: kajianData } = await kajianService.getKajianDB('');
+  //   setKajianData(kajianData);
+  // };
 
   const insertPresensi = async (presensi: PresensiType) => {
     try {
@@ -75,10 +77,10 @@ const AutoScan: React.FC = () => {
 
   const scanQr = async () => {
     if (qrCode !== '') {
-      if (!validateQrString(qrCode)) {
-        setIsMsgBtmSheet(true);
-        return;
-      }
+      // if (!validateQrString(qrCode)) {
+      //   setIsMsgBtmSheet(true);
+      //   return;
+      // }
 
       const { name, phoneNumber, uniqueId, time } = parsingQr(qrCode);
       const updatedPresensi = {
@@ -91,36 +93,36 @@ const AutoScan: React.FC = () => {
 
       setPresensi(updatedPresensi);
       await insertPresensi(updatedPresensi);
-      setIsSuccessBtmSheet(true);
+      // setIsSuccessBtmSheet(true);
 
       setTimeout(() => {
-        setIsSuccessBtmSheet(false);
+        // setIsSuccessBtmSheet(false);
         setPresensi({ ...presensi, kajianId: presensi.kajianId });
       }, 2000);
     }
   };
 
-  const onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setPresensi({ ...presensi, kajianId: parseInt(event.target.value) });
-  };
+  // const onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setPresensi({ ...presensi, kajianId: parseInt(event.target.value) });
+  // };
 
   const onQrCode = (qrCode: string) => {
     setQrCode(qrCode);
   };
 
-  const onCloseCameraBtmSheet = () => {
-    setIsCameraBtmSheet(false);
-  };
+  // const onCloseCameraBtmSheet = () => {
+  //   setIsCameraBtmSheet(false);
+  // };
 
-  const onClose = () => {
-    setIsSuccessBtmSheet(false);
-    setIsMsgBtmSheet(false);
-    window.location.reload();
-  };
+  // const onClose = () => {
+  //   setIsSuccessBtmSheet(false);
+  //   setIsMsgBtmSheet(false);
+  //   window.location.reload();
+  // };
 
-  useEffect(() => {
-    getKajian();
-  }, []);
+  // useEffect(() => {
+  //   getKajian();
+  // }, []);
 
   useEffect(() => {
     scanQr();
@@ -131,15 +133,15 @@ const AutoScan: React.FC = () => {
       <Wrapper>
         <GoXCircleFill className="back" onClick={() => navigate('/')} />
         {/* <ScannerWrapper> */}
-        {presensi.kajianId > 0 && (
-          <ContinuousQrScanner
-            onQrCode={onQrCode}
-            // style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          />
-        )}
+        {/* {presensi.kajianId > 0 && ( */}
+        <ContinuousQrScanner
+          onQrCode={onQrCode}
+          // style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
+        {/* )} */}
         {/* </ScannerWrapper> */}
         <pre>{JSON.stringify(presensi)}</pre>
-        <SelectWrapper>
+        {/* <SelectWrapper>
           <Select defaultValue="placeholder" onChange={onChange}>
             <Option value="placeholder" disabled>
               {lang('scan.choose_kajian')}
@@ -152,26 +154,26 @@ const AutoScan: React.FC = () => {
               );
             })}
           </Select>
-        </SelectWrapper>
+        </SelectWrapper> */}
       </Wrapper>
 
-      <CameraBtmSheet
+      {/* <CameraBtmSheet
         isCameraBtmSheet={isCameraBtmSheet}
         onClose={onCloseCameraBtmSheet}
-      />
+      /> */}
 
-      <SuccessBtmSheet
+      {/* <SuccessBtmSheet
         isSuccessBtmSheet={isSuccessBtmSheet}
         onClose={onClose}
         presensi={presensi}
-      />
+      /> */}
 
-      <MsgBtmSheet
+      {/* <MsgBtmSheet
         isMsgBtmSheet={isMsgBtmSheet}
         type="question"
         title={lang('scan.unknown_qr')}
         onClose={onClose}
-      />
+      /> */}
     </React.Fragment>
   );
 };
