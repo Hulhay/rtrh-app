@@ -25,7 +25,8 @@
         "name": "Nama Jamaah",
         "name_placeholder": "Masukkan Nama Jamaah",
         "phone": "Nomor WhatssApp Jamaah",
-        "phone_placeholder": "Masukkan Nomor WhatssApp Jamaah"
+        "phone_placeholder": "Masukkan Nomor WhatssApp Jamaah",
+        "phone_note": "*) Isi 0 jika tidak ada Nomor WhatssApp"
       },
       "success": "Jamaah Berhasil Ditambahkan",
       "edit_success": "Jamaah Berhasil diubah"
@@ -67,7 +68,9 @@
     "menu": {
       "title": "Menu",
       "logout": "Keluar",
-      "confirm_logout": "Yakin mau keluar?"
+      "confirm_logout": "Yakin mau keluar?",
+      "auto_scanner": "Auto Scanner",
+      "manual_scanner": "Manual Scanner"
     },
     "qr": {
       "rtrh": "Rumah Tahfizh Raudhatul Huffadz",

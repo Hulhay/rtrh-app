@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import {
+  AutoScan,
   CreateJamaahSuccess,
   Jamaah,
   JamaahDetail,
@@ -35,9 +36,14 @@ const Routes = createBrowserRouter([
     ],
   },
   {
-    path: 'scan',
+    path: 'manual-scan',
     loader: loader,
     element: <Scan />,
+  },
+  {
+    path: 'scan',
+    loader: loader,
+    element: <AutoScan />,
   },
   {
     path: 'jamaah/new',
