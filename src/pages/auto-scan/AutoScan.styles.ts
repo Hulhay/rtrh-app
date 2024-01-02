@@ -4,7 +4,6 @@ import { palette } from '../../constants';
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 15px;
 
   .back {
@@ -48,6 +47,7 @@ export const SelectWrapper = styled.div`
   width: 100%;
   margin-top: 20px;
   padding: 0px 10px;
+  z-index: 1;
 `;
 
 export const Select = styled.select`

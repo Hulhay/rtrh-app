@@ -36,12 +36,12 @@ const Routes = createBrowserRouter([
     ],
   },
   {
-    path: 'scan',
+    path: 'manual-scan',
     loader: loader,
     element: <Scan />,
   },
   {
-    path: 'auto-scan',
+    path: 'scan',
     loader: loader,
     element: <AutoScan />,
   },
