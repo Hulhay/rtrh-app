@@ -97,7 +97,7 @@ const AutoScan: React.FC = () => {
         <ScannerWrapper>
           {presensi.kajianId > 0 && (
             <QrReader
-              constraints={{}}
+              constraints={{ facingMode: 'environment' }}
               scanDelay={2000}
               onResult={onResult}
               containerStyle={{
