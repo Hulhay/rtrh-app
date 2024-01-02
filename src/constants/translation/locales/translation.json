@@ -68,7 +68,9 @@
     "menu": {
       "title": "Menu",
       "logout": "Keluar",
-      "confirm_logout": "Yakin mau keluar?"
+      "confirm_logout": "Yakin mau keluar?",
+      "auto_scanner": "Auto Scanner",
+      "manual_scanner": "Manual Scanner"
     },
     "qr": {
       "rtrh": "Rumah Tahfizh Raudhatul Huffadz",
