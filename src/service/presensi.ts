@@ -39,7 +39,7 @@ export default {
       .gt('created_at', sod)
       .lt('created_at', eod);
 
-    const resp: JamaahType[] =
+    const jamaah: JamaahType[] =
       data?.map((d) => {
         return {
           id: d.jamaah?.id,
@@ -48,6 +48,11 @@ export default {
           uniqueId: '',
         };
       }) || [];
+
+    // remove duplicate, temporary approach
+    const resp: JamaahType[] = jamaah.filter((j, i) => {
+      return i === jamaah.findIndex((o) => j.name === o.name);
+    });
 
     const count = resp?.length;
 
