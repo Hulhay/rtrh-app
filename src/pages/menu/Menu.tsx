@@ -7,6 +7,7 @@ import { lang } from '../../constants';
 import { useNavigate } from 'react-router-dom';
 import { removeCookie, removeRhStorage } from '../../helper';
 import { cookieKey, storageKey } from '../../config';
+import { RiQrScanLine } from 'react-icons/ri';
 
 const Menu: React.FC = () => {
   const navigate = useNavigate();
@@ -33,6 +34,20 @@ const Menu: React.FC = () => {
       <Wrapper>
         <Header title={lang('menu.title')} backEnabledTo="/" />
         <Items>
+          <Item onClick={() => navigate('/scan')}>
+            <LabeledIcon>
+              <RiQrScanLine className="icon" />
+              <p>{lang('menu.auto_scanner')}</p>
+            </LabeledIcon>
+            <FaAngleRight className="icon arrow" />
+          </Item>
+          <Item onClick={() => navigate('/manual-scan')}>
+            <LabeledIcon>
+              <RiQrScanLine className="icon" />
+              <p>{lang('menu.manual_scanner')}</p>
+            </LabeledIcon>
+            <FaAngleRight className="icon arrow" />
+          </Item>
           <Item onClick={onLogoutClick}>
             <LabeledIcon>
               <FiLogOut className="icon" />
