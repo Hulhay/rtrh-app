@@ -8,9 +8,7 @@ export default {
     const { data: jamaah } = await sbClient
       .from('jamaah')
       .select('id')
-      .or(
-        `unique_id.eq.${req.uniqueId},name.eq.${req.name},phone_number.eq.${req.phoneNumber}`,
-      )
+      .or(`unique_id.eq.${req.uniqueId},name.eq.${req.name}`)
       .single();
 
     if (!jamaah) {
