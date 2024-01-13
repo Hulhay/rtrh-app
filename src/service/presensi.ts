@@ -9,7 +9,7 @@ export default {
       .from('jamaah')
       .select('id')
       .or(
-        `unique_id.eq.${req.uniqueId},name.eq.${req.name},phone.eq.${req.phoneNumber}`,
+        `unique_id.eq.${req.uniqueId},name.eq.${req.name},phone_number.eq.${req.phoneNumber}`,
       )
       .single();
 
